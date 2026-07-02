@@ -1,0 +1,356 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>学词宝 - 英语·语文学习</title>
+<style>
+:root{--primary:#4A6CF7;--primary-light:#6B8AFF;--secondary:#FF6B6B;--success:#2ECC71;--warning:#F39C12;--bg:#F0F2F5;--card:#FFFFFF;--text:#2C3E50;--text-light:#95A5A6;--radius:16px;--shadow:0 4px 20px rgba(0,0,0,0.08);--shadow-lg:0 8px 40px rgba(0,0,0,0.12);}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text)}
+body{user-select:none;touch-action:manipulation}
+#app{position:relative;width:100%;height:100%;max-width:480px;margin:0 auto;overflow:hidden;background:var(--bg)}
+.screen{position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.screen.active{display:flex}.screen.slide-in{animation:slideIn .3s ease forwards}
+@keyframes slideIn{from{transform:translateX(100%);opacity:.8}to{transform:translateX(0);opacity:1}}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:12px;font-size:16px;font-weight:600;padding:16px 32px;cursor:pointer;transition:all .3s;min-height:52px}
+.btn:active{transform:scale(.96)}.btn-primary{background:var(--primary);color:#fff}
+.btn-outline{background:transparent;border:2px solid var(--primary);color:var(--primary)}
+.btn-block{width:100%}.btn-sm{padding:10px 20px;font-size:14px;min-height:40px}
+.header{display:flex;align-items:center;padding:16px;gap:12px;background:var(--card);border-bottom:1px solid rgba(0,0,0,.05);flex-shrink:0;min-height:60px}
+.header .back{width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:none;background:var(--bg);border-radius:50%;cursor:pointer;font-size:20px;flex-shrink:0}
+.header h1{flex:1;font-size:18px;font-weight:700;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.header .placeholder{width:40px;flex-shrink:0}
+.content{flex:1;overflow-y:auto;padding:20px 16px;display:flex;flex-direction:column}
+#s-home{background:linear-gradient(135deg,#4A6CF7,#3A56D4 60%,#2D3FA0)}
+#s-home .content{align-items:center;justify-content:center;gap:24px;padding:40px 24px}
+.home-logo{width:96px;height:96px;background:rgba(255,255,255,.2);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:48px;backdrop-filter:blur(10px);margin-bottom:8px}
+.home-title{color:#fff;font-size:32px;font-weight:800;letter-spacing:2px}
+.home-sub{color:rgba(255,255,255,.7);font-size:16px;text-align:center;line-height:1.6}
+.subject-grid{display:flex;flex-direction:column;gap:16px;width:100%;max-width:320px;margin-top:20px}
+.subject-card{background:rgba(255,255,255,.15);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.25);border-radius:16px;padding:24px;color:#fff;cursor:pointer;display:flex;align-items:center;gap:16px}
+.subject-card:active{transform:scale(.97);background:rgba(255,255,255,.25)}
+.subject-card .icon{font-size:36px;width:56px;height:56px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.2);border-radius:14px;flex-shrink:0}
+.subject-card .info{flex:1}.subject-card .name{font-size:20px;font-weight:700}
+.subject-card .desc{font-size:13px;opacity:.7;margin-top:2px}.subject-card .arrow{font-size:20px;opacity:.5}
+.grade-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grade-btn{background:var(--card);border:2px solid transparent;border-radius:var(--radius);padding:24px 16px;text-align:center;cursor:pointer;box-shadow:var(--shadow)}
+.grade-btn:active{transform:scale(.97);border-color:var(--primary)}
+.grade-btn .num{font-size:36px;font-weight:800;color:var(--primary)}
+.grade-btn .label{font-size:15px;color:var(--text-light);margin-top:4px}
+.menu-grid{display:flex;flex-direction:column;gap:12px}
+.menu-btn{background:var(--card);border-radius:var(--radius);padding:20px;cursor:pointer;box-shadow:var(--shadow);display:flex;align-items:center;gap:16px;border:none;text-align:left;width:100%}
+.menu-btn:active{transform:scale(.98)}
+.menu-btn .icon{font-size:32px;width:52px;height:52px;display:flex;align-items:center;justify-content:center;background:var(--bg);border-radius:12px;flex-shrink:0}
+.menu-btn .info{flex:1}.menu-btn .info .name{font-size:17px;font-weight:700}
+.menu-btn .info .desc{font-size:13px;color:var(--text-light);margin-top:2px}
+.menu-btn .arrow{color:var(--text-light);font-size:18px}
+.menu-stats{background:var(--card);border-radius:var(--radius);padding:16px 20px;box-shadow:var(--shadow);display:flex;justify-content:space-around;margin-top:8px}
+.stat-item{text-align:center}.stat-item .num{font-size:24px;font-weight:800;color:var(--primary)}
+.stat-item .label{font-size:12px;color:var(--text-light);margin-top:2px}
+.stat-divider{width:1px;background:#eee}
+.study-progress{width:100%;margin-bottom:16px}
+.progress-bar{height:6px;background:#E8ECF0;border-radius:3px;overflow:hidden}
+.progress-bar .fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--primary-light));border-radius:3px;transition:width .4s}
+.progress-text{display:flex;justify-content:space-between;font-size:13px;color:var(--text-light);margin-top:6px}
+.flashcard{width:100%;flex:1;min-height:240px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow-lg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;position:relative;cursor:pointer;margin-bottom:16px;border:2px solid transparent}
+.flashcard.revealed{border-color:var(--primary)}
+.flashcard .word{font-size:38px;font-weight:800;color:var(--text);margin-bottom:8px;text-align:center;word-break:break-word}
+.flashcard .phonetic{font-size:16px;color:var(--text-light);margin-bottom:12px}
+.flashcard .meaning-hint{font-size:14px;color:var(--text-light);opacity:.6}
+.flashcard .meaning{font-size:22px;font-weight:700;color:var(--primary);text-align:center;margin-top:8px}
+.flashcard .meaning-sub{font-size:15px;color:var(--text-light);margin-top:4px;text-align:center}
+.flashcard .speak-btn{position:absolute;top:16px;right:16px;width:44px;height:44px;border:none;background:var(--bg);border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.study-actions{display:flex;gap:12px;width:100%;padding-bottom:8px}.study-actions .btn{flex:1}
+.quiz-info{width:100%;display:flex;justify-content:space-between;font-size:14px;color:var(--text-light);margin-bottom:12px}
+.quiz-card{width:100%;background:var(--card);border-radius:var(--radius);padding:24px;margin-bottom:16px;box-shadow:var(--shadow);text-align:center}
+.quiz-card .word{font-size:36px;font-weight:800;margin-bottom:4px}
+.quiz-card .phonetic{font-size:15px;color:var(--text-light)}
+.quiz-options{display:flex;flex-direction:column;gap:10px;width:100%;flex:1}
+.quiz-option{background:var(--card);border:2px solid #E8ECF0;border-radius:12px;padding:16px 20px;font-size:17px;cursor:pointer;text-align:center;min-height:52px;display:flex;align-items:center;justify-content:center}
+.quiz-option:active{transform:scale(.97)}
+.quiz-option.correct{background:#EAFAF1;border-color:var(--success);color:var(--success);font-weight:700}
+.quiz-option.wrong{background:#FDEDEC;border-color:var(--secondary);color:var(--secondary)}
+.quiz-option.disabled{pointer-events:none;opacity:.8}
+.quiz-result{text-align:center;padding:40px 20px}
+.quiz-result .emoji{font-size:64px;margin-bottom:16px}
+.quiz-result .score{font-size:48px;font-weight:800;color:var(--primary)}
+.quiz-result .label{font-size:16px;color:var(--text-light);margin:8px 0}
+.review-empty{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text-light);gap:12px}
+.review-empty .icon{font-size:64px;opacity:.5}
+.stats-header{background:var(--card);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);text-align:center}
+.stats-header .big-num{font-size:48px;font-weight:800;color:var(--primary)}
+.stats-header .sub{color:var(--text-light);font-size:15px;margin-top:4px}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.stats-card{background:var(--card);border-radius:12px;padding:16px;text-align:center;box-shadow:var(--shadow)}
+.stats-card .num{font-size:28px;font-weight:800;color:var(--primary)}
+.stats-card .label{font-size:13px;color:var(--text-light);margin-top:2px}
+@keyframes pop{0%{transform:scale(.8);opacity:0}50%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
+.pop{animation:pop .3s ease}
+.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:999;background:rgba(0,0,0,.8);color:#fff;padding:12px 24px;border-radius:10px;font-size:15px;font-weight:600;max-width:320px;text-align:center;pointer-events:none}
+@media(prefers-color-scheme:dark){:root{--bg:#1a1a2e;--card:#16213e;--text:#e8e8e8;--text-light:#8892b0}.header{background:var(--card)}}
+</style>
+</head>
+<body>
+<div id="app">
+<div id="s-home" class="screen active">
+  <div class="content">
+    <div class="home-logo">📚</div>
+    <div class="home-title">学词宝</div>
+    <div class="home-sub">小学四年级 → 初中一年级<br>英语单词 &amp; 语文生字 学习助手</div>
+    <div class="subject-grid">
+      <div class="subject-card" onclick="selectSubject('en')"><div class="icon">🇬🇧</div><div class="info"><div class="name">英语单词</div><div class="desc">PEP教材同步 · 四至七年级</div></div><div class="arrow">›</div></div>
+      <div class="subject-card" onclick="selectSubject('zh')"><div class="icon">🀄</div><div class="info"><div class="name">语文生字</div><div class="desc">人教版同步 · 四至七年级</div></div><div class="arrow">›</div></div>
+    </div>
+  </div>
+</div>
+<div id="s-grade" class="screen">
+  <div class="header"><button class="back" onclick="goHome()">‹</button><h1 id="grade-title">选择年级</h1><div class="placeholder"></div></div>
+  <div class="content"><div class="grade-grid" id="grade-grid"></div></div>
+</div>
+<div id="s-menu" class="screen">
+  <div class="header"><button class="back" onclick="showScreen('s-grade')">‹</button><h1 id="menu-title">学习中心</h1><div class="placeholder"></div></div>
+  <div class="content">
+    <div class="menu-grid">
+      <div class="menu-btn" onclick="startStudy()"><div class="icon" style="background:#EBF0FF;color:#4A6CF7">📖</div><div class="info"><div class="name">学习模式</div><div class="desc">看词回想，点击揭晓答案</div></div><div class="arrow">›</div></div>
+      <div class="menu-btn" onclick="startQuiz()"><div class="icon" style="background:#FFF3E0;color:#FF9800">✍️</div><div class="info"><div class="name">测验模式</div><div class="desc">四选一，检验掌握程度</div></div><div class="arrow">›</div></div>
+      <div class="menu-btn" onclick="openReview()"><div class="icon" style="background:#FCE4EC;color:#FF6B6B">🔄</div><div class="info"><div class="name">错题复习</div><div class="desc">重温不会的单词/生字</div></div><div class="arrow">›</div></div>
+      <div class="menu-btn" onclick="showStats()"><div class="icon" style="background:#E8F5E9;color:#2ECC71">📊</div><div class="info"><div class="name">学习进度</div><div class="desc">查看学习记录和统计</div></div><div class="arrow">›</div></div>
+    </div>
+    <div class="menu-stats" id="menu-stats"></div>
+  </div>
+</div>
+<div id="s-study" class="screen">
+  <div class="header"><button class="back" onclick="exitStudy()">‹</button><h1 id="study-title">学习</h1><div class="placeholder"></div></div>
+  <div class="content">
+    <div class="study-progress"><div class="progress-bar"><div class="fill" id="study-fill" style="width:0%"></div></div><div class="progress-text"><span id="study-pos">1/10</span><span id="study-pct">0%</span></div></div>
+    <div class="flashcard" id="flashcard" onclick="revealCard()">
+      <button class="speak-btn" id="speak-btn" onclick="event.stopPropagation();speakWord()">🔊</button>
+      <div class="word" id="f-word">word</div>
+      <div class="phonetic" id="f-phonetic">/wɜːd/</div>
+      <div class="meaning-hint" id="f-hint">👆 点击查看释义</div>
+      <div class="meaning" id="f-meaning" style="display:none"></div>
+      <div class="meaning-sub" id="f-meaning-sub" style="display:none"></div>
+    </div>
+    <div class="study-actions" id="study-actions" style="display:none">
+      <button class="btn btn-outline" onclick="markStudy(false)" style="border-color:#FF6B6B;color:#FF6B6B">😅 还要练</button>
+      <button class="btn btn-primary" onclick="markStudy(true)">✅ 知道了</button>
+    </div>
+  </div>
+</div>
+<div id="s-quiz" class="screen">
+  <div class="header"><button class="back" onclick="exitQuiz()">‹</button><h1 id="quiz-title">测验</h1><div class="placeholder"></div></div>
+  <div class="content">
+    <div class="quiz-info"><span id="quiz-pos">第 1 题</span><span id="quiz-score">✓ 0 | ✗ 0</span></div>
+    <div class="quiz-card"><div class="word" id="q-word">word</div><div class="phonetic" id="q-phonetic"></div></div>
+    <div class="quiz-options" id="q-options"></div>
+  </div>
+</div>
+<div id="s-review" class="screen">
+  <div class="header"><button class="back" onclick="showScreen('s-menu')">‹</button><h1>错题复习</h1><div class="placeholder"></div></div>
+  <div class="content" id="review-content"></div>
+</div>
+<div id="s-stats" class="screen">
+  <div class="header"><button class="back" onclick="showScreen('s-menu')">‹</button><h1>学习进度</h1><div class="placeholder"></div></div>
+  <div class="content" id="stats-content"></div>
+</div>
+</div>
+<script>
+/* ========== WORD DATA ========== */
+const DATA=(()=>{
+const e4=[["classroom","教室","/ˈklɑːsruːm/"],["window","窗户","/ˈwɪndəʊ/"],["door","门","/dɔː/"],["picture","图画","/ˈpɪktʃə/"],["board","写字板","/bɔːd/"],["light","灯","/laɪt/"],["fan","风扇","/fæn/"],["wall","墙","/wɔːl/"],["floor","地板","/flɔː/"],["computer","电脑","/kəmˈpjuːtə/"],["desk","书桌","/desk/"],["chair","椅子","/tʃeə/"],["schoolbag","书包","/ˈskuːlbæɡ/"],["book","书","/bʊk/"],["pen","钢笔","/pen/"],["pencil","铅笔","/ˈpensl/"],["ruler","尺子","/ˈruːlə/"],["eraser","橡皮","/ɪˈreɪzə/"],["crayon","蜡笔","/ˈkreɪɒn/"],["teacher","老师","/ˈtiːtʃə/"],["student","学生","/ˈstjuːdnt/"],["family","家庭","/ˈfæməli/"],["parents","父母","/ˈpeərənts/"],["uncle","叔叔","/ˈʌŋkl/"],["aunt","阿姨","/ɑːnt/"],["brother","兄弟","/ˈbrʌðə/"],["sister","姐妹","/ˈsɪstə/"],["bedroom","卧室","/ˈbedruːm/"],["living room","客厅","/ˈlɪvɪŋ ruːm/"],["kitchen","厨房","/ˈkɪtʃɪn/"],["bathroom","浴室","/ˈbɑːθruːm/"],["bed","床","/bed/"],["table","桌子","/ˈteɪbl/"],["sofa","沙发","/ˈsəʊfə/"],["phone","电话","/fəʊn/"],["fridge","冰箱","/frɪdʒ/"],["chicken","鸡肉","/ˈtʃɪkɪn/"],["beef","牛肉","/biːf/"],["noodles","面条","/ˈnuːdlz/"],["soup","汤","/suːp/"],["vegetable","蔬菜","/ˈvedʒtəbl/"],["rice","米饭","/raɪs/"],["fish","鱼","/fɪʃ/"],["bread","面包","/bred/"],["milk","牛奶","/mɪlk/"],["egg","鸡蛋","/eɡ/"],["cake","蛋糕","/keɪk/"],["candy","糖果","/ˈkændi/"],["water","水","/ˈwɔːtə/"],["juice","果汁","/dʒuːs/"],["tea","茶","/tiː/"],["read","读","/riːd/"],["write","写","/raɪt/"],["draw","画","/drɔː/"],["jump","跳","/dʒʌmp/"],["run","跑","/rʌn/"],["swim","游泳","/swɪm/"],["sing","唱歌","/sɪŋ/"],["dance","跳舞","/dɑːns/"],["fly","飞","/flaɪ/"],["sleep","睡觉","/sliːp/"],["eat","吃","/iːt/"],["drink","喝","/drɪŋk/"],["hat","帽子","/hæt/"],["coat","外套","/kəʊt/"],["shoes","鞋子","/ʃuːz/"],["dress","连衣裙","/dres/"],["shirt","衬衫","/ʃɜːt/"],["jacket","夹克","/ˈdʒækɪt/"],["sweater","毛衣","/ˈswetə/"],["shorts","短裤","/ʃɔːts/"],["skirt","裙子","/skɜːt/"],["pretty","漂亮的","/ˈprɪti/"],["cheap","便宜的","/tʃiːp/"],["expensive","昂贵的","/ɪkˈspensɪv/"],["nice","好的","/naɪs/"],["big","大的","/bɪɡ/"],["small","小的","/smɔːl/"],["long","长的","/lɒŋ/"],["short","矮的短的","/ʃɔːt/"],["tall","高的","/tɔːl/"],["thin","瘦的","/θɪn/"],["strong","强壮的","/strɒŋ/"],["quiet","安静的","/ˈkwaɪət/"],["cute","可爱的","/kjuːt/"],["friendly","友好的","/ˈfrendli/"],["beautiful","美丽的","/ˈbjuːtɪfl/"],["music","音乐","/ˈmjuːzɪk/"],["science","科学","/ˈsaɪəns/"],["art","美术","/ɑːt/"],["breakfast","早餐","/ˈbrekfəst/"],["lunch","午餐","/lʌntʃ/"],["dinner","晚餐","/ˈdɪnə/"]];
+const e5=[["Monday","星期一","/ˈmʌndeɪ/"],["Tuesday","星期二","/ˈtjuːzdeɪ/"],["Wednesday","星期三","/ˈwenzdeɪ/"],["Thursday","星期四","/ˈθɜːzdeɪ/"],["Friday","星期五","/ˈfraɪdeɪ/"],["Saturday","星期六","/ˈsætədeɪ/"],["Sunday","星期日","/ˈsʌndeɪ/"],["wash","洗","/wɒʃ/"],["watch","看","/wɒtʃ/"],["read books","读书","/riːd bʊks/"],["play football","踢足球","/pleɪ ˈfʊtbɔːl/"],["cook","做饭","/kʊk/"],["clean","打扫","/kliːn/"],["helpful","有帮助的","/ˈhelpfl/"],["clever","聪明的","/ˈklevə/"],["polite","有礼貌的","/pəˈlaɪt/"],["hard-working","勤奋的","/hɑːd ˈwɜːkɪŋ/"],["shy","害羞的","/ʃaɪ/"],["spring","春天","/sprɪŋ/"],["summer","夏天","/ˈsʌmə/"],["autumn","秋天","/ˈɔːtəm/"],["winter","冬天","/ˈwɪntə/"],["season","季节","/ˈsiːzn/"],["weather","天气","/ˈweðə/"],["sunny","晴朗的","/ˈsʌni/"],["rainy","下雨的","/ˈreɪni/"],["cloudy","多云的","/ˈklaʊdi/"],["windy","有风的","/ˈwɪndi/"],["snowy","下雪的","/ˈsnəʊi/"],["warm","温暖的","/wɔːm/"],["hot","热的","/hɒt/"],["cool","凉爽的","/kuːl/"],["cold","冷的","/kəʊld/"],["forest","森林","/ˈfɒrɪst/"],["river","河流","/ˈrɪvə/"],["lake","湖","/leɪk/"],["mountain","山","/ˈmaʊntɪn/"],["hill","小山","/hɪl/"],["tree","树","/triː/"],["bridge","桥","/brɪdʒ/"],["house","房子","/haʊs/"],["garden","花园","/ˈɡɑːdn/"],["park","公园","/pɑːk/"],["library","图书馆","/ˈlaɪbrəri/"],["playground","操场","/ˈpleɪɡraʊnd/"],["gym","体育馆","/dʒɪm/"],["canteen","食堂","/kænˈtiːn/"],["English","英语","/ˈɪŋɡlɪʃ/"],["Chinese","语文","/ˌtʃaɪˈniːz/"],["maths","数学","/mæθs/"],["PE","体育","/ˌpiː ˈiː/"],["class","课","/klɑːs/"],["homework","作业","/ˈhəʊmwɜːk/"],["watch TV","看电视","/wɒtʃ ˌtiː ˈviː/"],["do sports","做运动","/duː spɔːts/"],["climb","爬","/klaɪm/"],["pick","摘","/pɪk/"],["plant","种植","/plɑːnt/"],["snowman","雪人","/ˈsnəʊmæn/"],["make a snowman","堆雪人","/meɪk ə ˈsnəʊmæn/"],["fly a kite","放风筝","/flaɪ ə kaɪt/"],["go hiking","去远足","/ɡəʊ ˈhaɪkɪŋ/"],["go swimming","去游泳","/ɡəʊ ˈswɪmɪŋ/"],["go shopping","去购物","/ɡəʊ ˈʃɒpɪŋ/"],["delicious","美味的","/dɪˈlɪʃəs/"],["fresh","新鲜的","/freʃ/"],["healthy","健康的","/ˈhelθi/"],["sweet","甜的","/swiːt/"],["salty","咸的","/ˈsɔːlti/"],["sour","酸的","/ˈsaʊə/"],["favourite","最喜欢的","/ˈfeɪvərɪt/"],["because","因为","/bɪˈkɒz/"]];
+const e6=[["subway","地铁","/ˈsʌbweɪ/"],["train","火车","/treɪn/"],["plane","飞机","/pleɪn/"],["ship","轮船","/ʃɪp/"],["bus","公交车","/bʌs/"],["bike","自行车","/baɪk/"],["taxi","出租车","/ˈtæksi/"],["walk","步行","/wɔːk/"],["traffic light","交通灯","/ˈtræfɪk laɪt/"],["traffic rule","交通规则","/ˈtræfɪk ruːl/"],["stop","停","/stɒp/"],["wait","等","/weɪt/"],["go","走","/ɡəʊ/"],["museum","博物馆","/mjuˈziːəm/"],["post office","邮局","/pəʊst ˈɒfɪs/"],["bookstore","书店","/ˈbʊkstɔː/"],["cinema","电影院","/ˈsɪnəmə/"],["hospital","医院","/ˈhɒspɪtl/"],["restaurant","餐馆","/ˈrestrɒnt/"],["near","附近","/nɪə/"],["next to","挨着","/nekst tuː/"],["behind","在…后面","/bɪˈhaɪnd/"],["in front of","在…前面","/ɪn frʌnt ɒv/"],["straight","笔直地","/streɪt/"],["turn","转弯","/tɜːn/"],["left","左","/left/"],["right","右","/raɪt/"],["crossing","十字路口","/ˈkrɒsɪŋ/"],["hobby","爱好","/ˈhɒbi/"],["singing","唱歌","/ˈsɪŋɪŋ/"],["dancing","跳舞","/ˈdɑːnsɪŋ/"],["reading","阅读","/ˈriːdɪŋ/"],["drawing","画画","/ˈdrɔːɪŋ/"],["playing","玩","/ˈpleɪɪŋ/"],["collecting","收集","/kəˈlektɪŋ/"],["stamps","邮票","/stæmps/"],["hiking","远足","/ˈhaɪkɪŋ/"],["fishing","钓鱼","/ˈfɪʃɪŋ/"],["doing kung fu","练功夫","/ˈduːɪŋ kʌŋ fuː/"],["singer","歌手","/ˈsɪŋə/"],["writer","作家","/ˈraɪtə/"],["dancer","舞者","/ˈdɑːnsə/"],["doctor","医生","/ˈdɒktə/"],["nurse","护士","/nɜːs/"],["driver","司机","/ˈdraɪvə/"],["farmer","农民","/ˈfɑːmə/"],["pilot","飞行员","/ˈpaɪlət/"],["coach","教练","/kəʊtʃ/"],["scientist","科学家","/ˈsaɪəntɪst/"],["headache","头痛","/ˈhedeɪk/"],["fever","发烧","/ˈfiːvə/"],["cough","咳嗽","/kɒf/"],["toothache","牙痛","/ˈtuːθeɪk/"],["stomachache","胃痛","/ˈstʌməkeɪk/"],["cold","感冒","/kəʊld/"],["medicine","药","/ˈmedsn/"],["exercise","锻炼","/ˈeksəsaɪz/"],["yesterday","昨天","/ˈjestədeɪ/"],["last week","上周","/lɑːst wiːk/"],["went","去(过去式)","/went/"],["did","做(过去式)","/dɪd/"],["was","是(过去式)","/wɒz/"],["were","是(过去式复数)","/wɜː/"],["had","有(过去式)","/hæd/"],["saw","看见(过去式)","/sɔː/"],["took","拿(过去式)","/tʊk/"],["bought","买(过去式)","/bɔːt/"],["ate","吃(过去式)","/eɪt/"],["drank","喝(过去式)","/dræŋk/"],["trip","旅行","/trɪp/"],["holiday","假日","/ˈhɒlədeɪ/"],["photo","照片","/ˈfəʊtəʊ/"],["gift","礼物","/ɡɪft/"],["storybook","故事书","/ˈstɔːribʊk/"],["dictionary","字典","/ˈdɪkʃənri/"]];
+const e7=[["parent","父亲/母亲","/ˈpeərənt/"],["grandfather","祖父","/ˈɡrænfɑːðə/"],["grandmother","祖母","/ˈɡrænmʌðə/"],["cousin","堂表兄弟姐妹","/ˈkʌzn/"],["son","儿子","/sʌn/"],["daughter","女儿","/ˈdɔːtə/"],["friend","朋友","/frend/"],["photo","照片","/ˈfəʊtəʊ/"],["telephone","电话","/ˈtelɪfəʊn/"],["number","号码","/ˈnʌmbə/"],["first name","名","/fɜːst neɪm/"],["last name","姓","/lɑːst neɪm/"],["middle school","中学","/ˈmɪdl skuːl/"],["classmate","同班同学","/ˈklɑːsmeɪt/"],["teacher","老师","/ˈtiːtʃə/"],["schoolbag","书包","/ˈskuːlbæɡ/"],["dictionary","字典","/ˈdɪkʃənri/"],["pencil box","铅笔盒","/ˈpensl bɒks/"],["notebook","笔记本","/ˈnəʊtbʊk/"],["subject","科目","/ˈsʌbdʒɪkt/"],["history","历史","/ˈhɪstri/"],["geography","地理","/dʒiˈɒɡrəfi/"],["biology","生物","/baɪˈɒlədʒi/"],["politics","政治","/ˈpɒlətɪks/"],["physics","物理","/ˈfɪzɪks/"],["Chinese","语文","/ˌtʃaɪˈniːz/"],["English","英语","/ˈɪŋɡlɪʃ/"],["maths","数学","/mæθs/"],["favourite","最喜欢的","/ˈfeɪvərɪt/"],["difficult","困难的","/ˈdɪfɪkəlt/"],["boring","无聊的","/ˈbɔːrɪŋ/"],["interesting","有趣的","/ˈɪntrəstɪŋ/"],["fun","有趣的","/fʌn/"],["easy","容易的","/ˈiːzi/"],["useful","有用的","/ˈjuːsfl/"],["hamburger","汉堡","/ˈhæmbɜːɡə/"],["sandwich","三明治","/ˈsænwɪtʃ/"],["salad","沙拉","/ˈsæləd/"],["strawberry","草莓","/ˈstrɔːbəri/"],["apple","苹果","/ˈæpl/"],["banana","香蕉","/bəˈnɑːnə/"],["orange","橙子","/ˈɒrɪndʒ/"],["tomato","西红柿","/təˈmɑːtəʊ/"],["potato","土豆","/pəˈteɪtəʊ/"],["carrot","胡萝卜","/ˈkærət/"],["pork","猪肉","/pɔːk/"],["mutton","羊肉","/ˈmʌtn/"],["chicken","鸡肉","/ˈtʃɪkɪn/"],["basketball","篮球","/ˈbɑːskɪtbɔːl/"],["soccer","足球","/ˈsɒkə/"],["volleyball","排球","/ˈvɒlibɔːl/"],["tennis","网球","/ˈtenɪs/"],["table tennis","乒乓球","/ˈteɪbl tenɪs/"],["relaxing","放松的","/rɪˈlæksɪŋ/"],["sports shoes","运动鞋","/spɔːts ʃuːz/"],["T-shirt","T恤","/ˈtiː ʃɜːt/"],["price","价格","/praɪs/"],["month","月份","/mʌnθ/"],["January","一月","/ˈdʒænjuəri/"],["February","二月","/ˈfebruəri/"],["March","三月","/mɑːtʃ/"],["April","四月","/ˈeɪprəl/"],["May","五月","/meɪ/"],["June","六月","/dʒuːn/"],["July","七月","/dʒuˈlaɪ/"],["August","八月","/ɔːˈɡʌst/"],["September","九月","/sepˈtembə/"],["October","十月","/ɒkˈtəʊbə/"],["November","十一月","/nəʊˈvembə/"],["December","十二月","/dɪˈsembə/"],["spring","春季","/sprɪŋ/"],["summer","夏季","/ˈsʌmə/"],["autumn","秋季","/ˈɔːtəm/"],["winter","冬季","/ˈwɪntə/"],["sunny","晴天的","/ˈsʌni/"],["rainy","下雨的","/ˈreɪni/"],["cloudy","多云的","/ˈklaʊdi/"],["windy","有风的","/ˈwɪndi/"],["snowy","下雪的","/ˈsnəʊi/"],["warm","温暖的","/wɔːm/"],["cool","凉爽的","/kuːl/"],["hot","炎热的","/hɒt/"],["cold","寒冷的","/kəʊld/"],["dog","狗","/dɒɡ/"],["cat","猫","/kæt/"],["elephant","大象","/ˈelɪfənt/"],["panda","熊猫","/ˈpændə/"],["tiger","老虎","/ˈtaɪɡə/"],["lion","狮子","/ˈlaɪən/"],["giraffe","长颈鹿","/dʒəˈrɑːf/"],["monkey","猴子","/ˈmʌŋki/"],["rabbit","兔子","/ˈræbɪt/"],["early","早的","/ˈɜːli/"],["late","晚的","/leɪt/"],["quickly","快速地","/ˈkwɪkli/"],["usually","通常","/ˈjuːʒuəli/"],["always","总是","/ˈɔːlweɪz/"],["often","经常","/ˈɒfn/"],["sometimes","有时","/ˈsʌmtaɪmz/"],["never","从不","/ˈnevə/"],["before","在…之前","/bɪˈfɔː/"],["after","在…之后","/ˈɑːftə/"],["rule","规则","/ruːl/"],["important","重要的","/ɪmˈpɔːtnt/"]];
+const c4=[["潮","cháo 潮水","浪潮"],["涨","zhǎng 涨潮","上涨"],["隐","yǐn 隐藏","隐约"],["约","yuē 约定","大约"],["窄","zhǎi 狭窄","宽窄"],["罩","zhào 笼罩","口罩"],["屹","yì 屹立","巍然屹立"],["昂","áng 昂首","昂贵"],["观","guān 观察","观看"],["横","héng 横线","横跨"],["惯","guàn 习惯","惯性"],["渡","dù 渡口","渡过"],["势","shì 姿势","形势"],["等","děng 等待","等级"],["若","ruò 若干","假若"],["渐","jiàn 渐渐","逐渐"],["痕","hén 痕迹","伤痕"],["逐","zhú 追逐","逐渐"],["歇","xiē 歇息","停歇"],["裂","liè 裂开","分裂"],["蔽","bì 隐蔽","遮蔽"],["搜","sōu 搜索","搜查"],["掘","jué 挖掘","发掘"],["沃","wò 肥沃","沃土"],["瓣","bàn 花瓣","豆瓣"],["津","jīn 津贴","津津有味"],["谓","wèi 所谓","称谓"],["梳","shū 梳子","梳理"],["衰","shuāi 衰老","衰退"],["绢","juàn 手绢","绢花"],["属","shǔ 属于","属性"],["悬","xuán 悬挂","悬浮"],["崖","yá 山崖","悬崖"],["吨","dūn 吨位","几吨"],["剖","pōu 解剖","剖面"],["窟","kū 窟窿","石窟"],["窿","lóng 窟窿","孔窿"],["挪","nuó 挪动","挪用"],["塌","tā 倒塌","塌陷"],["燃","rán 燃烧","燃料"],["熊","xióng 熊猫","狗熊"],["挣","zhèng 挣扎","挣钱"],["熄","xī 熄灭","熄灯"],["冶","yě 冶金","冶炼"],["炼","liàn 锻炼","炼钢"],["盆","pén 花盆","脸盆"],["摧","cuī 摧毁","摧残"],["浊","zhuó 浑浊","浊水"],["嫌","xián 嫌弃","嫌疑"],["磁","cí 磁铁","磁场"],["域","yù 区域","领域"],["蛇","shé 蛇","毒蛇"],["兽","shòu 野兽","兽医"],["途","tú 路途","前途"],["暴","bào 暴力","暴风雨"],["碰","pèng 碰见","碰撞"],["惨","cǎn 悲惨","惨重"],["肃","sù 严肃","肃静"],["晰","xī 清晰","明晰"],["振","zhèn 振奋","振动"],["旷","kuàng 空旷","旷野"],["恬","tián 恬静","恬淡"],["愕","è 惊愕","愕然"],["恍","huǎng 恍惚","恍然大悟"],["惚","hū 恍惚","疏忽"],["泌","mì 分泌","泌尿"],["尝","cháng 尝试","品尝"],["赚","zhuàn 赚钱","赚取"],["赔","péi 赔偿","赔钱"],["购","gòu 购买","采购"],["摊","tān 摊开","摆摊"],["货","huò 货物","货车"],["售","shòu 销售","售票"],["宾","bīn 宾馆","宾客"],["馆","guǎn 图书馆","餐馆"],["厨","chú 厨房","厨师"],["柜","guì 柜子","柜台"],["醋","cù 醋","陈醋"]];
+const c5=[["窃","qiè 盗窃","偷窃"],["腋","yè 腋下","腋窝"],["婪","lán 贪婪","婪取"],["惧","jù 恐惧","惧怕"],["辘","lù 饥肠辘辘","辘轳"],["撑","chēng 支撑","撑伞"],["侠","xiá 侠客","大侠"],["偿","cháng 偿还","补偿"],["甸","diàn 沉甸甸","甸子"],["愧","kuì 惭愧","愧疚"],["疚","jiù 内疚","愧疚"],["魂","hún 灵魂","魂魄"],["瘾","yǐn 上瘾","瘾头"],["籍","jí 书籍","籍贯"],["兼","jiān 兼职","兼顾"],["哗","huá 喧哗","哗然"],["仗","zhàng 打仗","仪仗"],["腕","wàn 手腕","腕表"],["腮","sāi 腮帮","腮红"],["芜","wú 荒芜","芜杂"],["寨","zhài 山寨","寨子"],["呕","ǒu 呕吐","呕心沥血"],["沥","lì 沥水","淅沥"],["肺","fèi 肺腑","肺活量"],["腑","fǔ 肺腑","脏腑"],["坠","zhuì 坠落","下坠"],["踌","chóu 踌躇","踌躇"],["躇","chú 踌躇","踌躇"],["黯","àn 黯淡","黯然"],["腼","miǎn 腼腆","腼腆"],["腆","tiǎn 腼腆","腼腆"],["誊","téng 誊写","誊抄"],["谨","jǐn 谨慎","严谨"],["慎","shèn 慎重","谨慎"],["杉","shā 杉木","杉树"],["昔","xī 昔日","往昔"],["墟","xū 废墟","墟落"],["曼","màn 曼妙","曼延"],["疾","jí 疾病","迅速"],["旷","kuàng 空旷","旷野"],["殿","diàn 宫殿","殿堂"],["廊","láng 走廊","长廊"],["柱","zhù 柱子","支柱"],["栽","zāi 栽种","栽树"],["筑","zhù 建筑","构筑"],["阁","gé 阁楼","内阁"],["博","bó 博士","博学"],["馆","guǎn 博物馆","图书馆"],["览","lǎn 游览","阅览"],["史","shǐ 历史","史册"],["闯","chuǎng 闯荡","闯祸"],["诞","dàn 诞生","诞辰"],["瞻","zhān 瞻仰","瞻望"],["颂","sòng 歌颂","颂扬"],["毅","yì 毅力","坚毅"],["铸","zhù 铸造","铸就"],["罕","hǎn 罕见","稀罕"],["硕","shuò 硕大","硕士"],["协","xié 协作","协商"],["捐","juān 捐献","捐款"],["殖","zhí 繁殖","生殖"],["癌","ái 癌症","肝癌"],["效","xiào 效果","效率"],["逸","yì 安逸","逃逸"],["绅","shēn 绅士","乡绅"]];
+const c6=[["邀","yāo 邀请","邀约"],["俯","fǔ 俯视","俯身"],["瀑","pù 瀑布","飞瀑"],["峭","qiào 峭壁","陡峭"],["躯","qū 身躯","躯体"],["津","jīn 津贴","津津有味"],["蕴","yùn 蕴含","蕴藏"],["谧","mì 静谧","安谧"],["巷","xiàng 小巷","巷子"],["俏","qiào 俏皮","俊俏"],["逗","dòu 逗乐","逗趣"],["庞","páng 庞大","面庞"],["烘","hōng 烘干","烘烤"],["烤","kǎo 烧烤","烤火"],["韵","yùn 韵味","韵律"],["勤","qín 勤奋","勤劳"],["勉","miǎn 勉励","勉强"],["吻","wěn 吻合","亲吻"],["施","shī 施工","实施"],["挠","náo 阻挠","挠头"],["庸","yōng 平庸","庸俗"],["毅","yì 毅力","坚毅"],["劣","liè 恶劣","劣势"],["惹","rě 惹事","招惹"],["讥","jī 讥笑","讥讽"],["浆","jiāng 泥浆","豆浆"],["岔","chà 岔路","打岔"],["挚","zhì 真挚","诚挚"],["寝","qǐn 就寝","寝室"],["频","pín 频繁","频率"],["朦","méng 朦胧","蒙胧"],["胧","lóng 朦胧","胧月"],["凄","qī 凄凉","凄惨"],["斑","bān 斑点","斑马"],["篇","piān 篇章","一篇"],["搁","gē 搁置","耽搁"],["填","tián 填写","填充"],["怨","yuàn 抱怨","怨恨"],["掀","xiān 掀开","掀起"],["裹","guǒ 包裹","裹着"],["魁","kuí 魁梧","魁首"],["梧","wú 魁梧","梧桐"],["淋","lín 淋雨","淋漓尽致"],["撕","sī 撕开","撕毁"],["霉","méi 发霉","倒霉"],["虑","lǜ 考虑","焦虑"],["悠","yōu 悠闲","悠久"],["仪","yí 仪式","仪表"],["歉","qiàn 道歉","歉意"],["溜","liū 溜走","溜冰"],["割","gē 割舍","收割"],["穗","suì 麦穗","稻穗"],["承","chéng 承担","承认"],["肩","jiān 肩膀","肩负"],["蹲","dūn 蹲下","蹲点"],["嘻","xī 笑嘻嘻","嘻哈"],["樱","yīng 樱花","樱桃"],["螃","páng 螃蟹","螃蟹"],["蟹","xiè 螃蟹","蟹黄"],["吼","hǒu 吼叫","怒吼"],["戈","gē 戈壁","干戈"]];
+const c7=[["絮","xù 柳絮","絮叨"],["倚","yǐ 倚靠","不偏不倚"],["谴","qiǎn 谴责","遣责"],["杈","chà 树杈","枝杈"],["瞒","mán 隐瞒","瞒骗"],["诀","jué 诀别","秘诀"],["惶","huáng 惶恐","惊慌"],["焦","jiāo 焦虑","焦急"],["慕","mù 羡慕","仰慕"],["惨","cǎn 悲惨","惨烈"],["恍","huǎng 恍惚","恍然大悟"],["撒","sā 撒手","撒网"],["蜷","quán 蜷缩","蜷曲"],["刹","chà 刹那","古刹"],["镶","xiāng 镶嵌","镶金"],["慨","kǎi 感慨","慨叹"],["吟","yín 吟诵","呻吟"],["劝","quàn 劝告","劝说"],["墟","xū 废墟","墟里"],["蔓","màn 蔓延","藤蔓"],["苟","gǒu 苟且","苟活"],["殉","xùn 殉职","殉难"],["狭","xiá 狭窄","狭隘"],["隘","ài 狭隘","关隘"],["炫","xuàn 炫耀","炫目"],["瞬","shùn 瞬间","转瞬"],["凝","níng 凝视","凝固"],["眸","móu 眼眸","眸子"],["眩","xuàn 眩晕","目眩"],["璞","pú 璞玉","返璞归真"],["禀","bǐng 禀告","禀性"],["赫","hè 显赫","赫赫有名"],["悚","sǒng 毛骨悚然","悚惧"],["湃","pài 澎湃","汹涌澎湃"],["踌","chóu 踌躇","踌躇"],["躇","chú 踌躇","踌躇"],["跄","qiàng 踉跄","跄踉"],["蹒","pán 蹒跚","蹒跚"],["跚","shān 蹒跚","蹒跚"],["颓","tuí 颓废","颓唐"],["琐","suǒ 琐碎","繁琐"],["耽","dān 耽误","耽搁"],["瘾","yǐn 上瘾","瘾头"],["辜","gū 辜负","无辜"],["虐","nüè 虐待","暴虐"],["滞","zhì 停滞","滞留"],["愕","è 惊愕","愕然"],["逸","yì 安逸","飘逸"],["潇","xiāo 潇洒","潇潇"],["洒","sǎ 洒脱","洒水"],["祷","dǎo 祈祷","祷告"],["虔","qián 虔诚","虔敬"],["祈","qí 祈求","祈望"],["喃","nán 呢喃","喃喃自语"],["羁","jī 羁绊","羁旅"],["稚","zhì 稚嫩","幼稚"],["惶","huáng 惶恐","惶惶"],["奈","nài 无奈","奈何"],["怯","qiè 胆怯","怯弱"],["颊","jiá 脸颊","面颊"],["蜕","tuì 蜕变","蜕皮"],["鄙","bǐ 鄙视","鄙夷"],["夷","yí 鄙夷","夷平"],["虐","nüè 虐待","肆虐"],["啸","xiào 呼啸","海啸"],["浊","zhuó 浑浊","浊世"],["撑","chēng 支撑","撑持"],["旷","kuàng 空旷","旷野"]];
+return{en:{4:e4,5:e5,6:e6,7:e7},zh:{4:c4,5:c5,6:c6,7:c7}};
+})();
+/* ========== STATE ========== */
+var S={subj:null,grade:null,mode:'study',idx:0,revealed:false,reviewing:[],reviewIdx:0,
+  quiz:{correct:0,wrong:0,total:0,answers:[],opts:[],answerIdx:-1,answered:false,idx:0}};
+/* ========== HELPERS ========== */
+function $(id){return document.getElementById(id)}
+function words(){return DATA[S.subj][S.grade]}
+function totalW(){return words().length}
+function storeKey(k){return 'xcb_'+S.subj+'_'+S.grade+'_'+k}
+function loadSet(k){try{return new Set(JSON.parse(localStorage.getItem(storeKey(k))||'[]'))}catch(e){return new Set}}
+function saveSet(k,s){localStorage.setItem(storeKey(k),JSON.stringify([...s]))}
+function getKnownSet(){return loadSet('known')}
+function addKnown(i){var s=getKnownSet();s.add(i);saveSet('known',s)}
+function getWrongSet(){return loadSet('wrong')}
+function addWrong(i){var s=getWrongSet();s.add(i);saveSet('wrong',s)}
+function removeWrong(i){var s=getWrongSet();s.delete(i);saveSet('wrong',s)}
+function getWrongList(){return[...getWrongSet()].sort(function(a,b){return a-b})}
+function shuffle(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+/* ========== NAVIGATION ========== */
+var sc=[];
+function showScreen(id,anim){
+  if(anim===undefined)anim=true;
+  var els=document.querySelectorAll('.screen');
+  for(var i=0;i<els.length;i++){els[i].classList.remove('active');els[i].classList.remove('slide-in');}
+  var el=document.getElementById(id);
+  if(anim)el.classList.add('slide-in');
+  el.classList.add('active');
+  if(!sc.length||sc[sc.length-1]!==id)sc.push(id);
+}
+function goHome(){showScreen('s-home')}
+function toast(m){var t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},2000)}
+/* ========== SUBJECT & GRADE ========== */
+function selectSubject(s){
+  S.subj=s;
+  $('#grade-title').textContent=s==='en'?'选择年级 - 英语单词':'选择年级 - 语文生字';
+  var grid=$('#grade-grid');grid.innerHTML='';
+  var grades=[{g:4,l:'四年级'},{g:5,l:'五年级'},{g:6,l:'六年级'},{g:7,l:'初一年级'}];
+  for(var i=0;i<grades.length;i++){
+    var gd=grades[i];var d=document.createElement('div');d.className='grade-btn';
+    d.innerHTML='<div class="num">'+gd.g+'</div><div class="label">'+gd.l+'</div>';
+    d.onclick=(function(g){return function(){selectGrade(g)}})(gd.g);
+    grid.appendChild(d);
+  }
+  showScreen('s-grade');
+}
+function selectGrade(g){
+  S.grade=g;
+  var gn={4:'四年级',5:'五年级',6:'六年级',7:'初一年级'};
+  $('#menu-title').textContent=(S.subj==='en'?'英语':'语文')+' · '+gn[g];
+  showScreen('s-menu');updateMenuStats();
+}
+function updateMenuStats(){
+  var kn=getKnownSet().size,tw=totalW(),wr=getWrongSet().size;
+  $('#menu-stats').innerHTML=kn||wr?
+    '<div class="stat-item"><div class="num">'+kn+'</div><div class="label">已掌握</div></div>'+
+    '<div class="stat-divider"></div>'+
+    '<div class="stat-item"><div class="num">'+tw+'</div><div class="label">总词数</div></div>'+
+    '<div class="stat-divider"></div>'+
+    '<div class="stat-item"><div class="num">'+wr+'</div><div class="label">待复习</div></div>'
+    :'<div style="text-align:center;color:var(--text-light);font-size:14px;width:100%">开始学习吧 📖</div>';
+}
+/* ========== STUDY ========== */
+var studyOrder=[];
+function startStudy(){
+  S.idx=0;S.revealed=false;
+  var gn={4:'四年级',5:'五年级',6:'六年级',7:'初一年级'};
+  $('#study-title').textContent=(S.subj==='en'?'英语 ':'语文 ')+gn[S.grade]+' · 学习';
+  studyOrder=shuffle([...Array(totalW()).keys()]);
+  showScreen('s-study');showStudyWord();
+}
+function showStudyWord(){
+  var w=words()[studyOrder[S.idx]];S.revealed=false;
+  var c=$('#flashcard');c.classList.remove('revealed');
+  $('#f-word').textContent=w[0];
+  $('#f-phonetic').textContent=S.subj==='en'?w[2]:w[1];
+  $('#f-meaning').style.display='none';$('#f-meaning-sub').style.display='none';
+  $('#f-hint').style.display='block';
+  $('#f-meaning').textContent='';$('#f-meaning-sub').textContent='';
+  $('#study-actions').style.display='none';
+  $('#speak-btn').style.display=S.subj==='en'?'flex':'none';
+  var p=((S.idx+1)/studyOrder.length*100).toFixed(0);
+  $('#study-fill').style.width=p+'%';
+  $('#study-pos').textContent=(S.idx+1)+'/'+studyOrder.length;
+  $('#study-pct').textContent=p+'%';
+}
+function revealCard(){
+  if(S.revealed)return;S.revealed=true;
+  var w=words()[studyOrder[S.idx]];var c=$('#flashcard');c.classList.add('revealed');
+  $('#f-hint').style.display='none';
+  $('#f-meaning').style.display='block';
+  $('#f-meaning').textContent=S.subj==='en'?w[1]:w[1].split(' ').slice(1).join(' ');
+  if(S.subj==='zh'){$('#f-meaning-sub').style.display='block';$('#f-meaning-sub').textContent=w[2];}
+  $('#study-actions').style.display='flex';
+  var m=$('#f-meaning');m.classList.remove('pop');void m.offsetWidth;m.classList.add('pop');
+}
+function markStudy(k){
+  var i=studyOrder[S.idx];
+  if(k){addKnown(i);removeWrong(i);}else addWrong(i);
+  S.idx++;
+  if(S.idx>=studyOrder.length){toast('🎉 本轮学习完成！');showScreen('s-menu');updateMenuStats();return;}
+  showStudyWord();
+}
+function exitStudy(){showScreen('s-menu');updateMenuStats()}
+/* ========== QUIZ ========== */
+var quizOrder=[];
+function startQuiz(){
+  var gn={4:'四年级',5:'五年级',6:'六年级',7:'初一年级'};
+  $('#quiz-title').textContent=(S.subj==='en'?'英语 ':'语文 ')+gn[S.grade]+' · 测验';
+  S.quiz={correct:0,wrong:0,total:0,answers:[],opts:[],answerIdx:-1,answered:false,idx:0};
+  quizOrder=shuffle([...Array(totalW()).keys()]);
+  S.quiz.total=Math.min(quizOrder.length,20);
+  S.quiz.answers=quizOrder.slice(0,S.quiz.total);
+  showScreen('s-quiz');showQuestion();
+}
+function showQuestion(){
+  var idx=S.quiz.idx;if(idx>=S.quiz.total){showQuizResult();return;}
+  S.quiz.answered=false;var wi=S.quiz.answers[idx];var w=words()[wi];var all=words();
+  $('#q-word').textContent=w[0];
+  $('#q-phonetic').textContent=S.subj==='en'?w[2]:'';
+  $('#quiz-pos').textContent='第 '+(idx+1)+' 题 / 共 '+S.quiz.total+' 题';
+  $('#quiz-score').textContent='✓ '+S.quiz.correct+' | ✗ '+S.quiz.wrong;
+  var opts=[wi];var pool=[];for(var i=0;i<all.length;i++){if(i!==wi)pool.push(i)}shuffle(pool);
+  for(var i=0;i<3&&i<pool.length;i++)opts.push(pool[i]);shuffle(opts);
+  S.quiz.opts=opts;S.quiz.answerIdx=opts.indexOf(wi);
+  var html='';
+  for(var i=0;i<opts.length;i++){
+    var oi=opts[i];var oi2=i;
+    var lbl=S.subj==='en'?all[oi][1]:(all[oi][1].split(' ')[0]+' '+all[oi][2]);
+    html+='<div class="quiz-option" onclick="answerQuestion('+oi2+')">'+lbl+'</div>';
+  }
+  $('#q-options').innerHTML=html;
+}
+function answerQuestion(oi){
+  if(S.quiz.answered)return;S.quiz.answered=true;
+  var c=S.quiz.answerIdx===oi;
+  if(c)S.quiz.correct++;else S.quiz.wrong++;
+  var opts=$('#q-options').querySelectorAll('.quiz-option');
+  for(var i=0;i<opts.length;i++){
+    var el=opts[i];el.classList.add('disabled');
+    if(i===S.quiz.answerIdx)el.classList.add('correct');
+    else if(i===oi&&!c)el.classList.add('wrong');
+  }
+  if(!c)addWrong(S.quiz.answers[S.quiz.idx]);
+  $('#quiz-score').textContent='✓ '+S.quiz.correct+' | ✗ '+S.quiz.wrong;
+  setTimeout(function(){S.quiz.idx++;showQuestion();},800);
+}
+function showQuizResult(){
+  var p=S.quiz.total?Math.round(S.quiz.correct/S.quiz.total*100):0;
+  var e=p>=90?'🏆':p>=70?'🌟':p>=50?'👍':'💪';
+  $('#q-options').innerHTML='<div class="quiz-result"><div class="emoji">'+e+'</div><div class="score">'+S.quiz.correct+'/'+S.quiz.total+'</div><div class="label">正确率 '+p+'%</div><div class="detail">答对 '+S.quiz.correct+' 题 · 答错 '+S.quiz.wrong+' 题</div><div style="margin-top:24px"><button class="btn btn-primary btn-block" onclick="showScreen(\'s-menu\');updateMenuStats();">返回学习中心</button></div></div>';
+}
+function exitQuiz(){showScreen('s-menu');updateMenuStats()}
+/* ========== REVIEW ========== */
+function openReview(){
+  var wl=getWrongList();
+  if(!wl.length){$('#review-content').innerHTML='<div class="review-empty"><div class="icon">🎉</div><div>没有需要复习的词！</div><div style="font-size:14px">继续学习新词吧</div></div>';showScreen('s-review');return;}
+  S.reviewing=wl;S.reviewIdx=0;S.revealed=false;showReviewWord();showScreen('s-review');
+}
+function showReviewWord(){
+  if(S.reviewIdx>=S.reviewing.length){$('#review-content').innerHTML='<div class="review-empty"><div class="icon">🎉</div><div>错题全部复习完毕！</div><div style="margin-top:16px"><button class="btn btn-primary" onclick="showScreen(\'s-menu\');updateMenuStats();">返回</button></div></div>';return;}
+  var wi=S.reviewing[S.reviewIdx];var w=words()[wi];S.revealed=false;
+  $('#review-content').innerHTML='<div class="study-progress"><div class="progress-bar"><div class="fill" style="width:'+((S.reviewIdx+1)/S.reviewing.length*100).toFixed(0)+'%"></div></div><div class="progress-text"><span>'+(S.reviewIdx+1)+'/'+S.reviewing.length+'</span><span>错题复习</span></div></div><div class="flashcard" onclick="revealReview()"><div class="word">'+w[0]+'</div><div class="phonetic">'+(S.subj==='en'?w[2]:w[1])+'</div><div class="meaning-hint" id="rvh">👆 点击查看释义</div><div class="meaning" id="rvm" style="display:none">'+(S.subj==='en'?w[1]:w[1].split(' ').slice(1).join(' '))+'</div><div class="meaning-sub" id="rvms" style="display:none">'+(S.subj==='zh'?w[2]:'')+'</div></div><div class="study-actions" id="rva" style="display:none"><button class="btn btn-outline" onclick="nextReview(false)" style="border-color:#FF6B6B;color:#FF6B6B">😅 还要练</button><button class="btn btn-primary" onclick="nextReview(true)">✅ 记住了</button></div>';
+}
+function revealReview(){
+  if(S.revealed)return;S.revealed=true;
+  $('#rvh').style.display='none';$('#rvm').style.display='block';$('#rvms').style.display=S.subj==='zh'?'block':'none';$('#rva').style.display='flex';
+}
+function nextReview(k){
+  var wi=S.reviewing[S.reviewIdx];
+  if(k){removeWrong(wi);addKnown(wi);}else addWrong(wi);
+  S.reviewIdx++;showReviewWord();
+}
+/* ========== STATS ========== */
+function showStats(){
+  var tw=totalW(),kn=getKnownSet().size,wr=getWrongSet().size,kp=tw?Math.round(kn/tw*100):0;
+  var sn=S.subj==='en'?'英语':'语文';var gn={4:'四年级',5:'五年级',6:'六年级',7:'初一年级'}[S.grade];
+  $('#stats-content').innerHTML='<div class="stats-header"><div class="big-num">'+kp+'%</div><div class="sub">'+sn+' · '+gn+' 掌握率</div></div><div class="stats-grid"><div class="stats-card"><div class="num" style="color:#4A6CF7">'+kn+'</div><div class="label">已掌握</div></div><div class="stats-card"><div class="num">'+tw+'</div><div class="label">总词数</div></div><div class="stats-card"><div class="num" style="color:#FF6B6B">'+wr+'</div><div class="label">待复习</div></div><div class="stats-card"><div class="num" style="color:#2ECC71">'+(tw-kn)+'</div><div class="label">待学习</div></div></div><div style="margin-top:8px"><div class="progress-bar" style="height:12px;border-radius:6px"><div class="fill" style="width:'+kp+'%;border-radius:6px"></div></div></div><div style="margin-top:auto;padding-top:16px;text-align:center"><button class="btn btn-outline btn-sm" onclick="resetProgress()">🔄 重置本年级进度</button></div>';
+  showScreen('s-stats');
+}
+function resetProgress(){if(!confirm('确定要重置本年级所有学习进度吗？'))return;localStorage.removeItem(storeKey('known'));localStorage.removeItem(storeKey('wrong'));toast('进度已重置');showStats()}
+/* ========== SPEECH ========== */
+function speakWord(){var w=words()[studyOrder[S.idx]];if(!w||!window.speechSynthesis)return;var u=new SpeechSynthesisUtterance(w[0]);u.lang=S.subj==='en'?'en-US':'zh-CN';u.rate=0.9;speechSynthesis.cancel();speechSynthesis.speak(u)}
+/* ========== INIT ========== */
+console.log('📚 学词宝 loaded');
+</script>
+</body>
+</html>
