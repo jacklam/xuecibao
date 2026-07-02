@@ -1,1 +1,157 @@
-<script>alert(1)</script>
+﻿<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Jax小宇宙</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f0f23;--card:rgba(255,255,255,0.06);--text:#e8e8ff;--text2:rgba(232,232,255,0.6);--text3:rgba(232,232,255,0.35);--p:#6c5ce7;--p2:#a29bfe;--s:#00cec9;--d:#ff7675}
+[data-theme=light]{--bg:#f5f6fa;--card:#fff;--card-h:#f0f0f5;--text:#2d3436;--text2:#636e72;--text3:#b2bec3}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Microsoft YaHei',sans-serif;background:var(--bg);color:var(--text);overflow:hidden;height:100%;touch-action:manipulation}
+canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+#root{position:relative;width:100%;height:100%;max-width:480px;margin:0 auto;overflow:hidden}
+.page{position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;overflow-y:auto;padding:0 16px 20px;z-index:1}
+.page.show{display:flex}.ct{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding-top:4px}
+.hdr{display:flex;align-items:center;padding:16px 0 8px;gap:8px;flex-shrink:0}
+.hdr .bk{width:34px;height:34px;display:flex;align-items:center;justify-content:center;border:none;background:var(--card);border-radius:50%;cursor:pointer;color:var(--text);font-size:18px;flex-shrink:0}
+.hdr .bk:active{background:var(--card-h)}.hdr h2{flex:1;font-size:17px;font-weight:600;text-align:center;color:var(--text2)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;border-radius:12px;font-size:15px;font-weight:600;padding:14px 24px;cursor:pointer;min-height:46px}
+.btn:active{transform:scale(.96)}.btn-p{background:var(--p);color:#fff}.btn-s{background:var(--s);color:#fff}.btn-o{background:transparent;border:1.5px solid var(--text3);color:var(--text2)}
+.home{align-items:center;justify-content:center;gap:14px;padding-top:60px}
+.logo{width:76px;height:76px;background:linear-gradient(135deg,var(--p),#fd79a8);border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:36px;box-shadow:0 8px 30px rgba(108,92,231,0.3)}
+.title{font-size:28px;font-weight:800;background:linear-gradient(135deg,var(--p2),#fd79a8);-webkit-background-clip:text;-webkit-text-fill-color:transparent;letter-spacing:1px}
+.sub{font-size:13px;color:var(--text3);text-align:center;line-height:1.7}
+.cards{display:flex;flex-direction:column;gap:10px;width:100%;max-width:310px;margin-top:6px}
+.card-item{background:var(--card);border:1px solid rgba(255,255,255,0.08);border-radius:16px;padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:14px}
+.card-item:active{transform:scale(.97)}.card-item .ic{font-size:26px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.06);border-radius:12px;flex-shrink:0}
+.nm{font-size:16px;font-weight:600}.ds{font-size:12px;color:var(--text3);margin-top:2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.gb{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:22px 12px;text-align:center;cursor:pointer}
+.gb:active{transform:scale(.96);border-color:var(--p)}.gb .gn{font-size:30px;font-weight:800;color:var(--p2)}.gb .gl{font-size:13px;color:var(--text3);margin-top:4px}
+.mg{display:flex;flex-direction:column;gap:10px}.mi{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:14px;width:100%}
+.mi:active{background:var(--card-h)}.mi .ic{font-size:24px;width:42px;height:42px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.06);border-radius:12px;flex-shrink:0}
+.ms{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:12px 14px;display:flex;justify-content:space-around;margin-top:6px}
+.st{text-align:center}.st .n{font-size:20px;font-weight:700;color:var(--p2)}.st .l{font-size:11px;color:var(--text3);margin-top:2px}.sd{width:1px;background:rgba(255,255,255,0.08)}
+.pb{width:100%;margin-bottom:8px}.bar{height:4px;background:rgba(255,255,255,0.08);border-radius:2px;overflow:hidden}
+.bar .fl{height:100%;background:linear-gradient(90deg,var(--p),var(--p2));border-radius:2px;transition:width .4s}
+.pt{display:flex;justify-content:space-between;font-size:11px;color:var(--text3);margin-top:4px}
+.cw{width:100%;perspective:800px;margin-bottom:10px;flex:1}
+.cf{position:relative;width:100%;height:100%;min-height:220px;transition:transform .6s;transform-style:preserve-3d;cursor:pointer}
+.cf.fl{transform:rotateY(180deg)}.face{position:absolute;top:0;left:0;width:100%;height:100%;backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px;border:1px solid rgba(255,255,255,0.08);background:var(--card)}
+.back{background:linear-gradient(135deg,rgba(108,92,231,0.12),rgba(253,121,168,0.08));transform:rotateY(180deg)}
+.face .wd{font-size:34px;font-weight:700;margin-bottom:6px;text-align:center;word-break:break-word}
+.face .hint{font-size:13px;color:var(--text3);opacity:0.5}.face .ans{font-size:20px;font-weight:600;color:var(--p2);text-align:center;margin-top:6px}
+.sa{display:flex;gap:10px;width:100%;padding-bottom:4px}.sa .btn{flex:1;font-size:14px}
+.qi{width:100%;display:flex;justify-content:space-between;font-size:12px;color:var(--text3);margin-bottom:8px}
+.qc{width:100%;background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:20px;margin-bottom:12px;text-align:center}
+.qc .wd{font-size:32px;font-weight:700}.qo{display:flex;flex-direction:column;gap:8px;width:100%;flex:1}
+.qi-item{background:var(--card);border:1.5px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px 16px;font-size:15px;cursor:pointer;text-align:center;min-height:46px;display:flex;align-items:center;justify-content:center}
+.qi-item:active{transform:scale(.97)}.qi-item.cr{border-color:var(--s);background:rgba(0,206,201,0.1);color:var(--s);font-weight:600}
+.qi-item.wr{border-color:var(--d);background:rgba(255,118,117,0.1);color:var(--d)}.qi-item.di{pointer-events:none;opacity:0.6}
+.em{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--text3);gap:10px}.em .ic{font-size:56px;opacity:0.4}
+.sh{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:18px;text-align:center;margin-bottom:6px}
+.sh .bn{font-size:38px;font-weight:800;color:var(--p2)}.sh .sb{font-size:13px;color:var(--text3);margin-top:4px}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sc{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:12px;text-align:center}
+.sc .sn{font-size:22px;font-weight:700;color:var(--p2)}.sc .sl{font-size:11px;color:var(--text3);margin-top:2px}
+.sw{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:14px}
+.sw h3{font-size:13px;color:var(--text3);margin-bottom:8px;font-weight:500}
+.sds{display:flex;gap:4px;flex-wrap:wrap}
+.sd0{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;background:rgba(255,255,255,0.05);color:var(--text3)}
+.sd0.do{background:var(--p);color:#fff}.sd0.to{border:2px solid var(--p2);background:rgba(108,92,231,0.15)}
+.cb{background:var(--card);border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:14px;margin-bottom:6px}
+.cb h3{font-size:13px;color:var(--text3);margin-bottom:8px;font-weight:500}
+.bch{display:flex;gap:8px;height:100px;align-items:flex-end}
+.bi{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.bf{width:100%;border-radius:4px 4px 0 0;min-height:4px}
+.bl{font-size:9px;color:var(--text3);white-space:nowrap}
+.rst{text-align:center;margin-top:8px}
+.qr-s{text-align:center;padding:30px 16px}
+.qr-s .em{font-size:52px;margin-bottom:12px}.qr-s .sc{font-size:36px;font-weight:800;color:var(--p2)}.qr-s .lb{font-size:14px;color:var(--text3);margin:6px 0}
+</style>
+</head><body>
+<canvas id="stars"></canvas>
+<div id="root">
+<div id="page-home" class="page show"><div class="ct home">
+<div class="logo">📚</div><div class="title">Jax小宇宙</div>
+<div class="sub">四年级 → 初一年级<br/>英语单词 · 中文生字</div>
+<div class="cards">
+<div class="card-item" id="btn-en"><div class="ic">🌍</div><div style="flex:1"><div class="nm">英语单词</div><div class="ds">PEP教材同步</div></div></div>
+<div class="card-item" id="btn-zh"><div class="ic">🀄</div><div style="flex:1"><div class="nm">中文生字</div><div class="ds">人教版同步</div></div></div>
+</div>
+</div></div>
+<div id="page-grade" class="page"><div class="hdr"><button class="bk" id="b1">‹</button><h2 id="grade-title">选择年级</h2></div><div class="ct"><div class="grid2" id="grade-grid"></div></div></div>
+<div id="page-menu" class="page"><div class="hdr"><button class="bk" id="b2">‹</button><h2 id="menu-title">学习中心</h2></div><div class="ct">
+<div class="mi" id="btn-study"><div class="ic" style="background:#6c5ce722;color:#6c5ce7">📖</div><div style="flex:1"><div class="nm">学习模式</div><div class="ds">看词回想，点击翻转卡片</div></div></div>
+<div class="mi" id="btn-quiz"><div class="ic" style="background:#fdcb6e22;color:#fdcb6e">✍️</div><div style="flex:1"><div class="nm">测验模式</div><div class="ds">四选一检验掌握程度</div></div></div>
+<div class="mi" id="btn-review"><div class="ic" style="background:#ff767522;color:#ff7675">🔄</div><div style="flex:1"><div class="nm">错题复习</div><div class="ds">重温不会的单词/生字</div></div></div>
+<div class="mi" id="btn-stats"><div class="ic" style="background:#00cec922;color:#00cec9">📊</div><div style="flex:1"><div class="nm">学习进度</div><div class="ds">查看学习记录和统计</div></div></div>
+<div class="ms" id="menu-stats"></div></div></div>
+<div id="page-study" class="page"><div class="hdr"><button class="bk" id="b3">‹</button><h2>学习</h2></div><div class="ct">
+<div class="pb"><div class="bar"><div class="fl" id="sbar" style="width:0%"></div></div><div class="pt"><span id="sp">1/10</span><span id="sp-pct">0%</span></div></div>
+<div class="cw"><div class="cf" id="flip"><div class="face"><div class="wd" id="sw">word</div><div class="hint" id="shint">点击翻转</div></div><div class="face back"><div class="hint" style="opacity:.4;margin-bottom:4px;font-size:12px">释义</div><div class="ans" id="sans"></div></div></div></div>
+<div class="sa" id="sbtns" style="display:none">
+<button class="btn btn-o" id="sno" style="flex:1;border-color:#ff7675;color:#ff7675">还要练</button>
+<button class="btn btn-s" id="syes" style="flex:1">记住了</button></div></div></div>
+<div id="page-quiz" class="page"><div class="hdr"><button class="bk" id="b4">‹</button><h2>测验</h2></div><div class="ct"><div class="qi"><span id="qpos">第 1 题</span><span id="qscore">0 / 0</span></div><div class="qc"><div class="wd" id="qw">word</div></div><div class="qo" id="qopts"></div></div></div>
+<div id="page-review" class="page"><div class="hdr"><button class="bk" id="b5">‹</button><h2>错题复习</h2></div><div class="ct" id="rct"></div></div>
+<div id="page-stats" class="page"><div class="hdr"><button class="bk" id="b6">‹</button><h2>学习进度</h2></div><div class="ct" id="stats-ct"></div></div>
+</div>
+<script>
+(function(){var c=document.getElementById('stars');if(!c)return;c.width=window.innerWidth;c.height=window.innerHeight;var ctx=c.getContext('2d');var s=[];for(var i=0;i<80;i++)s.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*1.5+0.3,v:Math.random()*0.3+0.1,b:Math.random()});function d(){ctx.clearRect(0,0,c.width,c.height);for(var i=0;i<s.length;i++){var t=s[i];t.b+=(Math.random()-0.5)*0.1;t.b=Math.max(0.2,Math.min(0.8,t.b));ctx.fillStyle='rgba(255,255,255,'+(t.b*0.3+0.2)+')';ctx.beginPath();ctx.arc(t.x,t.y,t.r,0,Math.PI*2);ctx.fill();t.y-=t.v;if(t.y<0){t.y=c.height;t.x=Math.random()*c.width}}requestAnimationFrame(d)}d()})()
+
+var D={en:{4:[["classroom","教室"],["window","窗户"],["door","门"],["book","书"],["pen","钢笔"],["teacher","老师"],["student","学生"],["family","家庭"],["bed","床"],["table","桌子"],["water","水"],["read","读"],["write","写"],["run","跑"],["jump","跳"],["sing","唱歌"],["dance","跳舞"],["swim","游泳"],["eat","吃"],["drink","喝"],["big","大的"],["small","小的"],["long","长的"],["tall","高的"],["short","矮的"],["cute","可爱的"],["music","音乐"],["science","科学"],["art","美术"]],5:[["Monday","星期一"],["Tuesday","星期二"],["Wednesday","星期三"],["Thursday","星期四"],["Friday","星期五"],["Saturday","星期六"],["Sunday","星期日"],["spring","春天"],["summer","夏天"],["autumn","秋天"],["winter","冬天"],["sunny","晴朗"],["rainy","下雨"],["cloudy","多云"],["warm","温暖"],["hot","热"],["cool","凉爽"],["cold","冷"],["forest","森林"],["river","河流"],["lake","湖"],["mountain","山"],["park","公园"],["library","图书馆"],["delicious","美味"],["fresh","新鲜"],["healthy","健康"],["sweet","甜的"]],6:[["subway","地铁"],["train","火车"],["plane","飞机"],["bus","公交车"],["bike","自行车"],["taxi","出租车"],["walk","步行"],["museum","博物馆"],["bookstore","书店"],["cinema","电影院"],["hospital","医院"],["doctor","医生"],["nurse","护士"],["driver","司机"],["farmer","农民"],["singer","歌手"],["writer","作家"],["hobby","爱好"],["yesterday","昨天"],["trip","旅行"],["holiday","假日"],["gift","礼物"]],7:[["parent","父母"],["grandfather","祖父"],["grandmother","祖母"],["friend","朋友"],["teacher","老师"],["classmate","同学"],["subject","科目"],["history","历史"],["geography","地理"],["biology","生物"],["favourite","最喜欢"],["difficult","困难"],["interesting","有趣"],["easy","容易"],["hamburger","汉堡"],["sandwich","三明治"],["apple","苹果"],["banana","香蕉"],["tomato","西红柿"],["basketball","篮球"],["soccer","足球"],["dog","狗"],["cat","猫"],["panda","熊猫"],["tiger","老虎"],["early","早"],["late","晚"],["rule","规则"]]},zh:{4:[["潮","潮水"],["涨","涨潮"],["隐","隐藏"],["约","约定"],["窄","狭窄"],["罩","笼罩"],["昂","昂首"],["观","观察"],["惯","习惯"],["渡","渡口"],["裂","裂开"],["沃","肥沃"],["属","属于"],["悬","悬挂"],["崖","山崖"],["燃","燃烧"],["炼","锻炼"],["域","领域"],["途","路途"],["肃","肃静"],["振","振奋"],["旷","空旷"],["尝","尝试"],["赚","赚钱"],["购","购买"],["售","销售"]],5:[["窃","偷窃"],["惧","恐惧"],["撑","支撑"],["偿","偿还"],["愧","惭愧"],["魂","灵魂"],["瘾","上瘾"],["籍","书籍"],["肺","肺腑"],["坠","坠落"],["谨","谨慎"],["慎","慎重"],["疾","疾病"],["殿","宫殿"],["廊","走廊"],["博","博士"],["览","游览"],["诞","诞生"],["颂","歌颂"],["毅","毅力"]],6:[["邀","邀请"],["俯","俯视"],["瀑","瀑布"],["峭","峭壁"],["躯","身躯"],["蕴","蕴含"],["谧","静谧"],["巷","小巷"],["勤","勤奋"],["勉","勉励"],["挚","真挚"],["寝","寝室"],["斑","斑点"],["怨","抱怨"],["承","承担"],["肩","肩膀"],["樱","樱花"]],7:[["絮","柳絮"],["倚","倚靠"],["瞒","隐瞒"],["诀","诀别"],["惶","惶恐"],["焦","焦虑"],["慕","羡慕"],["撒","撒网"],["蜷","蜷缩"],["慨","感慨"],["吟","吟诵"],["墟","废墟"],["狭","狭窄"],["隘","狭隘"],["瞬","瞬间"],["凝","凝视"],["颓","颓废"],["怯","胆怯"],["鄙","鄙视"]]}}
+
+var A=null,B=null,SOrder=[],SIdx=0,CardR=false,QCorrect=0,QWrong=0,QTotal=0,QAnswers=[],QIdx=0,QAnswered=false,RList=[],RIdx=0,RRevealed=false
+
+function gW(){return D[A][B]}
+function tW(){return gW().length}
+function sK(s){return 'xcb_'+A+'_'+B+'_'+s}
+function lS(k){try{return new Set(JSON.parse(localStorage.getItem(sK(k))||'[]'))}catch(e){return new Set()}}
+function sS(k,v){localStorage.setItem(sK(k),JSON.stringify([...v]))}
+function aK(i){var s=lS('k');s.add(i);sS('k',s);return s}
+function aW(i){var s=lS('w');s.add(i);sS('w',s);return s}
+function rW(i){var s=lS('w');s.delete(i);sS('w',s);return s}
+function sf(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function sP(id){var ps=document.querySelectorAll('.page');for(var i=0;i<ps.length;i++)ps[i].classList.remove('show');var el=document.getElementById(id);if(el)el.classList.add('show')}
+function gH(){sP('page-home')}
+function gM(){sP('page-menu');uMS()}
+function uMS(){var k=lS('k').size,t=tW(),w=lS('w').size;var el=document.getElementById('menu-stats');if(!el)return;el.innerHTML=k||w?'<div class="st"><div class="n">'+k+'</div><div class="l">已掌握</div></div><div class="sd"></div><div class="st"><div class="n">'+t+'</div><div class="l">总词数</div></div><div class="sd"></div><div class="st"><div class="n">'+w+'</div><div class="l">待复习</div></div>':'<div style="text-align:center;color:var(--text3);font-size:14px;width:100%">开始学习吧</div>'}
+function sS2(s){A=s;document.getElementById('grade-title').textContent=s==='en'?'选择年级 - 英语':'选择年级 - 语文';var g=document.getElementById('grade-grid');g.innerHTML='';[[4,'四年级'],[5,'五年级'],[6,'六年级'],[7,'初一年级']].forEach(function(a){var d=document.createElement('div');d.className='gb';d.innerHTML='<div class="gn">'+a[0]+'</div><div class="gl">'+a[1]+'</div>';d.addEventListener('click',function(){sG(a[0])});g.appendChild(d)});sP('page-grade')}
+function sG(g){B=g;var n={4:'四年级',5:'五年级',6:'六年级',7:'初一年级'};var el=document.getElementById('menu-title');if(el)el.textContent=(A==='en'?'英语 ':'语文 ')+n[g];gM()}
+function stS(){SIdx=0;CardR=false;SOrder=sf([...Array(tW()).keys()]);sP('page-study');sSC()}
+function sSC(){var w=gW()[SOrder[SIdx]];CardR=false;var el=document.getElementById('flip');if(el)el.classList.remove('fl');var wd=document.getElementById('sw');if(wd)wd.textContent=w[0];var sh=document.getElementById('shint');if(sh){sh.style.display='block';sh.textContent='点击翻转'}var sa=document.getElementById('sans');if(sa){sa.style.display='none'}var sb=document.getElementById('sbtns');if(sb)sb.style.display='none';var p=((SIdx+1)/SOrder.length*100).toFixed(0);var sb2=document.getElementById('sbar');if(sb2)sb2.style.width=p+'%';var sp=document.getElementById('sp');if(sp)sp.textContent=(SIdx+1)+'/'+SOrder.length;var sp2=document.getElementById('sp-pct');if(sp2)sp2.textContent=p+'%'}
+function rC(){if(CardR||!SOrder.length)return;CardR=true;var w=gW()[SOrder[SIdx]];var el=document.getElementById('flip');if(el)el.classList.add('fl');var sh=document.getElementById('shint');if(sh)sh.style.display='none';var sa=document.getElementById('sans');if(sa){sa.textContent=w[1];sa.style.display='block'}var sb=document.getElementById('sbtns');if(sb)sb.style.display='flex'}
+function mS(k){var i=SOrder[SIdx];k?aK(i):aW(i);SIdx++;if(SIdx>=SOrder.length){gM();return}sSC()}
+function stQ(){var o=sf([...Array(tW()).keys()]);QTotal=Math.min(o.length,20);QAnswers=o.slice(0,QTotal);QCorrect=0;QWrong=0;QIdx=0;QAnswered=false;sP('page-quiz');sQ()}
+function sQ(){if(QIdx>=QTotal){sQR();return}QAnswered=false;var wi=QAnswers[QIdx],w=gW()[wi],all=gW();var qw=document.getElementById('qw');if(qw)qw.textContent=w[0];var qp=document.getElementById('qpos');if(qp)qp.textContent='第 '+(QIdx+1)+' 题 / 共 '+QTotal+' 题';var qs=document.getElementById('qscore');if(qs)qs.textContent='0 / 0';var op=[wi],pl=[];for(var i=0;i<all.length;i++)if(i!==wi)pl.push(i);sf(pl);for(var i=0;i<3&&i<pl.length;i++)op.push(pl[i]);sf(op);var ci=op.indexOf(wi);var h='';for(var i=0;i<op.length;i++)h+='<div class="qi-item" data-ci="'+ci+'" data-ch="'+i+'">'+all[op[i]][1]+'</div>';var qo=document.getElementById('qopts');if(qo)qo.innerHTML=h}
+function hA(ch,ci){if(QAnswered)return;QAnswered=true;var isC=ch===ci;if(isC)QCorrect++;else QWrong++;var opts=document.querySelectorAll('.qi-item');for(var i=0;i<opts.length;i++){opts[i].classList.add('di');if(i===ci)opts[i].classList.add('cr');else if(i===ch&&!isC)opts[i].classList.add('wr')}if(!isC)aW(QAnswers[QIdx]);var qs=document.getElementById('qscore');if(qs)qs.textContent=QCorrect+' / '+QWrong;setTimeout(function(){QIdx++;sQ()},700)}
+function sQR(){var p=QTotal?Math.round(QCorrect/QTotal*100):0,e=p>=90?'🏆':p>=70?'🌟':p>=50?'👍':'💪';var qo=document.getElementById('qopts');if(qo)qo.innerHTML='<div class="qr-s"><div class="em">'+e+'</div><div class="sc">'+QCorrect+'/'+QTotal+'</div><div class="lb">正确率 '+p+'%</div><div style="margin-top:16px"><button class="btn btn-p" onclick="gM()">返回</button></div></div>'}
+function oR(){var l=[...lS('w')].sort(function(a,b){return a-b});var rc=document.getElementById('rct');if(!l.length){if(rc)rc.innerHTML='<div class="em"><div class="ic">🎉</div><div>没有需要复习的词</div></div>';sP('page-review');return}RList=l;RIdx=0;RRevealed=false;sRC();sP('page-review')}
+function sRC(){var rc=document.getElementById('rct');if(!rc)return;if(RIdx>=RList.length){rc.innerHTML='<div class="em"><div class="ic">🎉</div><div>全部复习完毕</div><button class="btn btn-p" onclick="gM()" style="margin-top:12px">返回</button></div>';return}var w=gW()[RList[RIdx]];RRevealed=false;rc.innerHTML='<div class="pb"><div class="bar"><div class="fl" style="width:'+((RIdx+1)/RList.length*100).toFixed(0)+'%"></div></div><div class="pt"><span>'+(RIdx+1)+'/'+RList.length+'</span><span>错题复习</span></div></div><div class="cw"><div class="cf" id="rflip"><div class="face"><div class="wd">'+w[0]+'</div><div class="hint" id="rhint">点击翻转</div></div><div class="face back"><div class="hint" style="opacity:.4;margin-bottom:4px;font-size:12px">释义</div><div class="ans" id="rans">'+w[1]+'</div></div></div></div><div class="sa" id="rbtns" style="display:none"><button class="btn btn-o" id="rno" style="flex:1;border-color:#ff7675;color:#ff7675">还要练</button><button class="btn btn-s" id="ryes" style="flex:1">记住了</button></div>'}
+function rRC(){if(RRevealed)return;RRevealed=true;var rh=document.getElementById('rhint');if(rh)rh.style.display='none';var ra=document.getElementById('rans');if(ra)ra.style.display='block';var rb=document.getElementById('rbtns');if(rb)rb.style.display='flex'}
+function nR(k){var i=RList[RIdx];k?rW(i):aW(i);RIdx++;sRC()}
+function sS3(){var t=tW(),k=lS('k').size,w=lS('w').size,p=t?Math.round(k/t*100):0,sn=A==='en'?'英语':'语文',gn=['四年级','五年级','六年级','初一年级'][B-4];var td=new Date(),ds='';for(var i=6;i>=0;i--){var d=new Date(td);d.setDate(d.getDate()-i);var dn=localStorage.getItem('xcb_streak_'+d.toDateString());ds+='<div class="sd0'+(i===0?' to':'')+(dn?' do':'')+'">'+d.getDate()+'</div>'}var cd='',mx=1;for(var gi=4;gi<=7;gi++){var gk=lS('xcb_'+A+'_'+gi+'_k').size;if(gk>mx)mx=gk}var cl=['#6c5ce7','#a29bfe','#fdcb6e','#00cec9'];for(var gi=4;gi<=7;gi++){var gk=lS('xcb_'+A+'_'+gi+'_k').size;cd+='<div class="bi"><div class="bf" style="height:'+Math.max(4,gk/mx*90)+'px;background:'+cl[gi-4]+'"></div><div class="bl">'+gi+'级</div></div>'}var sc=document.getElementById('stats-ct');if(sc)sc.innerHTML='<div class="sh"><div class="bn">'+p+'%</div><div class="sb">'+sn+' - '+gn+'</div></div><div class="sg"><div class="sc"><div class="sn" style="color:#6c5ce7">'+k+'</div><div class="sl">已掌握</div></div><div class="sc"><div class="sn">'+t+'</div><div class="sl">总词数</div></div><div class="sc"><div class="sn" style="color:#ff7675">'+w+'</div><div class="sl">待复习</div></div><div class="sc"><div class="sn" style="color:#00cec9">'+(t-k)+'</div><div class="sl">待学习</div></div></div><div class="bar" style="height:8px;border-radius:4px;margin-bottom:8px"><div class="fl" style="width:'+p+'%;border-radius:4px"></div></div><div class="cb"><h3>各年级掌握</h3><div class="bch">'+cd+'</div></div><div class="sw"><h3>学习日历</h3><div class="sds">'+ds+'</div></div><div class="rst"><button class="btn btn-o" style="padding:8px 16px;font-size:12px;min-height:32px;border-radius:8px" onclick="if(confirm(\'确定重置本年级进度吗？\')){localStorage.removeItem(sK(\'k\'));localStorage.removeItem(sK(\'w\'));sS3()}">重置进度</button></div>';sP('page-stats')}
+function init(){
+  document.getElementById('btn-en').addEventListener('click',function(){sS2('en')})
+  document.getElementById('btn-zh').addEventListener('click',function(){sS2('zh')})
+  var b1=document.getElementById('b1');if(b1)b1.addEventListener('click',gH)
+  var b2=document.getElementById('b2');if(b2)b2.addEventListener('click',function(){sP('page-grade')})
+  var b3=document.getElementById('b3');if(b3)b3.addEventListener('click',gM)
+  var b4=document.getElementById('b4');if(b4)b4.addEventListener('click',gM)
+  var b5=document.getElementById('b5');if(b5)b5.addEventListener('click',gM)
+  var b6=document.getElementById('b6');if(b6)b6.addEventListener('click',gM)
+  var bs=document.getElementById('btn-study');if(bs)bs.addEventListener('click',stS)
+  var bq=document.getElementById('btn-quiz');if(bq)bq.addEventListener('click',stQ)
+  var br=document.getElementById('btn-review');if(br)br.addEventListener('click',oR)
+  var bst=document.getElementById('btn-stats');if(bst)bst.addEventListener('click',sS3)
+  var fl=document.getElementById('flip');if(fl)fl.addEventListener('click',rC)
+  document.getElementById('sno').addEventListener('click',function(){mS(false)})
+  document.getElementById('syes').addEventListener('click',function(){mS(true)})
+  document.getElementById('qopts').addEventListener('click',function(e){var t=e.target.closest('.qi-item');if(!t||QAnswered)return;hA(parseInt(t.getAttribute('data-ch')),parseInt(t.getAttribute('data-ci')))})
+  document.getElementById('rct').addEventListener('click',function(e){if(e.target.closest('#rflip')){rRC();return}if(e.target.closest('#rno')){nR(false);return}if(e.target.closest('#ryes')){nR(true);return}})
+  localStorage.setItem('xcb_streak_'+new Date().toDateString(),'1')
+  if(localStorage.getItem('xcb_dark')==='0')document.documentElement.setAttribute('data-theme','light')
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init()
+</script></body></html>
