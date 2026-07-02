@@ -172,7 +172,7 @@ return{en:{4:e4,5:e5,6:e6,7:e7},zh:{4:c4,5:c5,6:c6,7:c7}};
 var S={subj:null,grade:null,mode:'study',idx:0,revealed:false,reviewing:[],reviewIdx:0,
   quiz:{correct:0,wrong:0,total:0,answers:[],opts:[],answerIdx:-1,answered:false,idx:0}};
 /* ========== HELPERS ========== */
-function $(id){return document.getElementById(id)}
+function $(id){return document.getElementById(id.replace("#",""))}
 function words(){return DATA[S.subj][S.grade]}
 function totalW(){return words().length}
 function storeKey(k){return 'xcb_'+S.subj+'_'+S.grade+'_'+k}
@@ -354,3 +354,4 @@ console.log('📚 学词宝 loaded');
 </script>
 </body>
 </html>
+
