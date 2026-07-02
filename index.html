@@ -6,88 +6,81 @@
 <title>学词宝 - 英语·语文学习</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:#f0f2f5;color:#2c3e50;touch-action:manipulation}
+html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;background:#f0f2f5;color:#2c3e50;touch-action:manipulation}
 #app{position:relative;width:100%;height:100%;max-width:480px;margin:0 auto;overflow:hidden;background:#f0f2f5}
-.screen{position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;overflow-y:auto}
-.screen.active{display:flex}
-.btn{display:inline-flex;align-items:center;justify-content:center;border:none;border-radius:12px;font-size:16px;font-weight:600;padding:16px 32px;cursor:pointer;min-height:52px;touch-action:manipulation}
+.page{position:absolute;top:0;left:0;width:100%;height:100%;display:none;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.page.active{display:flex}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:none;border-radius:12px;font-size:16px;font-weight:600;padding:16px 28px;cursor:pointer;min-height:48px;touch-action:manipulation}
 .btn:active{transform:scale(.96)}
 .btn-primary{background:#4a6cf7;color:#fff}
 .btn-outline{background:transparent;border:2px solid #4a6cf7;color:#4a6cf7}
-.btn-block{width:100%}
-.btn-sm{padding:10px 20px;font-size:14px;min-height:40px}
-.header{display:flex;align-items:center;padding:12px 16px;gap:12px;background:#fff;border-bottom:1px solid rgba(0,0,0,.05);flex-shrink:0}
-.header .back{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:none;background:#f0f2f5;border-radius:50%;cursor:pointer;font-size:20px;flex-shrink:0}
-.header h1{flex:1;font-size:18px;font-weight:700;text-align:center}
-.header .ph{width:36px;flex-shrink:0}
-.ct{flex:1;overflow-y:auto;padding:20px 16px;display:flex;flex-direction:column}
-.home{background:linear-gradient(135deg,#4a6cf7,#3a56d4 60%,#2d3fa0)}
-.home .ct{align-items:center;justify-content:center;gap:20px}
-.home-logo{width:80px;height:80px;background:rgba(255,255,255,.2);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:40px}
-.home-title{color:#fff;font-size:28px;font-weight:800;letter-spacing:2px}
-.home-sub{color:rgba(255,255,255,.7);font-size:14px;text-align:center;line-height:1.6}
-.sc{display:flex;flex-direction:column;gap:12px;width:100%;max-width:300px;margin-top:16px}
-.sc-item{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:20px;color:#fff;cursor:pointer;display:flex;align-items:center;gap:14px}
-.sc-item:active{transform:scale(.97);background:rgba(255,255,255,.25)}
-.sc-item .ico{font-size:32px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.2);border-radius:12px;flex-shrink:0}
-.sc-item .info{flex:1}
-.sc-item .nm{font-size:18px;font-weight:700}
-.sc-item .ds{font-size:12px;opacity:.7;margin-top:2px}
-.sc-item .ar{font-size:18px;opacity:.5}
-.gg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
-.gb{background:#fff;border:2px solid #eee;border-radius:14px;padding:20px 12px;text-align:center;cursor:pointer}
+.btn-block{width:100%}.btn-sm{padding:10px 20px;font-size:14px;min-height:40px}
+.hd{display:flex;align-items:center;padding:12px 16px;gap:10px;background:#fff;border-bottom:1px solid rgba(0,0,0,.06);flex-shrink:0;min-height:56px}
+.hd .bk{width:36px;height:36px;display:flex;align-items:center;justify-content:center;border:none;background:#f0f2f5;border-radius:50%;cursor:pointer;font-size:20px;flex-shrink:0}
+.hd h2{flex:1;font-size:17px;font-weight:700;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hd .ph{width:36px;flex-shrink:0}
+.ct{flex:1;overflow-y:auto;padding:20px 16px;display:flex;flex-direction:column;gap:14px}
+/* Home */
+.pg0{background:linear-gradient(135deg,#4a6cf7,#3a56d4 60%,#2d3fa0)}
+.pg0 .ct{align-items:center;justify-content:center;gap:20px;padding:40px 20px}
+.logo{width:80px;height:80px;background:rgba(255,255,255,.2);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:40px}
+.ht{color:#fff;font-size:28px;font-weight:800;letter-spacing:2px}
+.hs{color:rgba(255,255,255,.7);font-size:14px;text-align:center;line-height:1.6}
+.sc{display:flex;flex-direction:column;gap:12px;width:100%;max-width:300px;margin-top:12px}
+.sci{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:14px;padding:18px 20px;color:#fff;cursor:pointer;display:flex;align-items:center;gap:14px}
+.sci:active{transform:scale(.97);background:rgba(255,255,255,.25)}
+.sci .ico{font-size:30px;width:46px;height:46px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.2);border-radius:12px;flex-shrink:0}
+.sci .if{flex:1}.sn{font-size:18px;font-weight:700}.sd{font-size:12px;opacity:.7;margin-top:2px}
+.sci .ar{font-size:18px;opacity:.5}
+/* Grade Grid */
+.gg{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+.gb{background:#fff;border:2px solid transparent;border-radius:14px;padding:22px 12px;text-align:center;cursor:pointer;box-shadow:0 2px 12px rgba(0,0,0,.06)}
 .gb:active{transform:scale(.97);border-color:#4a6cf7}
-.gb .gn{font-size:32px;font-weight:800;color:#4a6cf7}
+.gb .gn{font-size:34px;font-weight:800;color:#4a6cf7}
 .gb .gl{font-size:14px;color:#95a5a6;margin-top:4px}
+/* Menu */
 .mg{display:flex;flex-direction:column;gap:10px}
-.mi{background:#fff;border-radius:14px;padding:16px;cursor:pointer;display:flex;align-items:center;gap:14px;border:none;text-align:left;width:100%;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.mi{background:#fff;border-radius:14px;padding:16px 18px;cursor:pointer;display:flex;align-items:center;gap:14px;border:none;text-align:left;width:100%;box-shadow:0 2px 12px rgba(0,0,0,.06)}
 .mi:active{transform:scale(.98)}
-.mi .ico{font-size:28px;width:48px;height:48px;display:flex;align-items:center;justify-content:center;background:#f0f2f5;border-radius:12px;flex-shrink:0}
-.mi .info{flex:1}
-.mi .nm{font-size:16px;font-weight:700}
-.mi .ds{font-size:12px;color:#95a5a6;margin-top:2px}
+.mi .ico{font-size:26px;width:46px;height:46px;display:flex;align-items:center;justify-content:center;background:#f0f2f5;border-radius:12px;flex-shrink:0}
+.mi .if{flex:1}.mi .sn{font-size:16px;font-weight:700}.mi .sd{font-size:12px;color:#95a5a6;margin-top:2px}
 .ms{background:#fff;border-radius:14px;padding:12px 16px;display:flex;justify-content:space-around;margin-top:8px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-.si{text-align:center}
-.si .num{font-size:22px;font-weight:800;color:#4a6cf7}
-.si .lb{font-size:11px;color:#95a5a6;margin-top:2px}
-.sd{width:1px;background:#eee}
-.sp{width:100%;margin-bottom:12px}
+.msi{text-align:center}.msi .mn{font-size:22px;font-weight:800;color:#4a6cf7}
+.msi .ml{font-size:11px;color:#95a5a6;margin-top:2px}
+.msd{width:1px;background:#eee}
+/* Study */
+.sp{width:100%;margin-bottom:8px}
 .pb{height:5px;background:#e8ecf0;border-radius:3px;overflow:hidden}
 .pb .fl{height:100%;background:linear-gradient(90deg,#4a6cf7,#6b8aff);border-radius:3px;transition:width .4s}
 .pt{display:flex;justify-content:space-between;font-size:12px;color:#95a5a6;margin-top:4px}
-.fc{width:100%;flex:1;min-height:200px;background:#fff;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px;position:relative;cursor:pointer;margin-bottom:12px;border:2px solid transparent;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.fc{width:100%;flex:1;min-height:200px;background:#fff;border-radius:14px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:28px 20px;position:relative;cursor:pointer;margin-bottom:10px;border:2px solid transparent;box-shadow:0 4px 20px rgba(0,0,0,.1)}
 .fc.rv{border-color:#4a6cf7}
-.fc .wd{font-size:36px;font-weight:800;color:#2c3e50;margin-bottom:6px;text-align:center;word-break:break-word}
-.fc .ph{font-size:15px;color:#95a5a6;margin-bottom:10px}
-.fc .mh{font-size:13px;color:#95a5a6;opacity:.6}
-.fc .me{font-size:20px;font-weight:700;color:#4a6cf7;text-align:center;margin-top:6px}
-.fc .ms{font-size:14px;color:#95a5a6;margin-top:4px;text-align:center}
-.fc .spk{position:absolute;top:12px;right:12px;width:40px;height:40px;border:none;background:#f0f2f5;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.fc .wd{font-size:36px;font-weight:800;color:#2c3e50;margin-bottom:4px;text-align:center;word-break:break-word}
+.fc .hint{font-size:13px;color:#95a5a6;opacity:.6}
+.fc .ans{font-size:20px;font-weight:700;color:#4a6cf7;text-align:center;margin-top:6px}
 .sa{display:flex;gap:10px;width:100%;padding-bottom:4px}
 .sa .btn{flex:1}
-.qi{width:100%;display:flex;justify-content:space-between;font-size:13px;color:#95a5a6;margin-bottom:10px}
+/* Quiz */
+.qi{width:100%;display:flex;justify-content:space-between;font-size:13px;color:#95a5a6;margin-bottom:8px}
 .qc{width:100%;background:#fff;border-radius:14px;padding:20px;margin-bottom:12px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06)}
 .qc .wd{font-size:34px;font-weight:800;margin-bottom:4px}
-.qc .ph{font-size:14px;color:#95a5a6}
 .qo{display:flex;flex-direction:column;gap:8px;width:100%;flex:1}
 .qoi{background:#fff;border:2px solid #e8ecf0;border-radius:12px;padding:14px 16px;font-size:16px;cursor:pointer;text-align:center;min-height:48px;display:flex;align-items:center;justify-content:center}
 .qoi:active{transform:scale(.97)}
 .qoi.cr{background:#eafaf1;border-color:#2ecc71;color:#2ecc71;font-weight:700}
 .qoi.wr{background:#fdedec;border-color:#ff6b6b;color:#ff6b6b}
 .qoi.di{pointer-events:none;opacity:.8}
-.qr{text-align:center;padding:32px 16px}
-.qr .em{font-size:56px;margin-bottom:12px}
-.qr .sc{font-size:40px;font-weight:800;color:#4a6cf7}
-.qr .lb{font-size:15px;color:#95a5a6;margin:6px 0}
+/* Review */
 .re{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#95a5a6;gap:10px}
 .re .ico{font-size:56px;opacity:.5}
+/* Stats */
 .sh{background:#fff;border-radius:14px;padding:20px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06)}
 .sh .bn{font-size:40px;font-weight:800;color:#4a6cf7}
 .sh .sb{color:#95a5a6;font-size:14px;margin-top:4px}
 .sg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.scd{background:#fff;border-radius:12px;padding:14px;text-align:center}
-.scd .num{font-size:24px;font-weight:800;color:#4a6cf7}
-.scd .lb{font-size:12px;color:#95a5a6;margin-top:2px}
+.scd{background:#fff;border-radius:12px;padding:14px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.scd .sn{font-size:24px;font-weight:800;color:#4a6cf7}
+.scd .sl{font-size:12px;color:#95a5a6;margin-top:2px}
 @keyframes pop{0%{transform:scale(.8);opacity:0}50%{transform:scale(1.05)}100%{transform:scale(1);opacity:1}}
 .po{animation:pop .3s ease}
 .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:999;background:rgba(0,0,0,.8);color:#fff;padding:10px 20px;border-radius:10px;font-size:14px;font-weight:600;max-width:300px;text-align:center;pointer-events:none}
@@ -95,121 +88,314 @@ html,body{height:100%;overflow:hidden;font-family:-apple-system,BlinkMacSystemFo
 </head>
 <body>
 <div id="app">
-<div id="s0" class="screen active home">
+<div id="pg0" class="page active pg0">
   <div class="ct">
-    <div class="home-logo">📚</div>
-    <div class="home-title">学词宝</div>
-    <div class="home-sub">四年级 → 初一年级<br>英语单词 · 语文生字</div>
+    <div class="logo">📚</div>
+    <div class="ht">学词宝</div>
+    <div class="hs">四年级 → 初一年级<br>英语单词 · 语文生字</div>
     <div class="sc">
-      <div class="sc-item" onclick="J('en')"><div class="ico">🇬🇧</div><div class="info"><div class="nm">英语单词</div><div class="ds">PEP教材</div></div><div class="ar">›</div></div>
-      <div class="sc-item" onclick="J('zh')"><div class="ico">🀄</div><div class="info"><div class="nm">语文生字</div><div class="ds">人教版</div></div><div class="ar">›</div></div>
+      <div class="sci" id="btn-en"><div class="ico">🇬🇧</div><div class="if"><div class="sn">英语单词</div><div class="sd">PEP教材</div></div><div class="ar">›</div></div>
+      <div class="sci" id="btn-zh"><div class="ico">🀄</div><div class="if"><div class="sn">语文生字</div><div class="sd">人教版</div></div><div class="ar">›</div></div>
     </div>
   </div>
 </div>
-<div id="s1" class="screen">
-  <div class="header"><button class="back" onclick="b0()">‹</button><h1 id="t1">选择年级</h1><div class="ph"></div></div>
+<div id="pg1" class="page">
+  <div class="hd"><button class="bk" id="b1">‹</button><h2 id="t1">选择年级</h2><div class="ph"></div></div>
   <div class="ct"><div class="gg" id="g1"></div></div>
 </div>
-<div id="s2" class="screen">
-  <div class="header"><button class="back" onclick="b1()">‹</button><h1 id="t2">学习中心</h1><div class="ph"></div></div>
+<div id="pg2" class="page">
+  <div class="hd"><button class="bk" id="b2">‹</button><h2 id="t2">学习中心</h2><div class="ph"></div></div>
   <div class="ct">
     <div class="mg">
-      <div class="mi" onclick="ms()"><div class="ico" style="background:#ebf0ff;color:#4a6cf7">📖</div><div class="info"><div class="nm">学习模式</div><div class="ds">看词回想，点击揭晓</div></div><div class="ar">›</div></div>
-      <div class="mi" onclick="mq()"><div class="ico" style="background:#fff3e0;color:#f90">✍️</div><div class="info"><div class="nm">测验模式</div><div class="ds">四选一，检验掌握</div></div><div class="ar">›</div></div>
-      <div class="mi" onclick="mr()"><div class="ico" style="background:#fce4ec;color:#ff6b6b">🔄</div><div class="info"><div class="nm">错题复习</div><div class="ds">重温不会的词</div></div><div class="ar">›</div></div>
-      <div class="mi" onclick="mst()"><div class="ico" style="background:#e8f5e9;color:#2ecc71">📊</div><div class="info"><div class="nm">学习进度</div><div class="ds">查看统计</div></div><div class="ar">›</div></div>
+      <div class="mi" id="btn-stu"><div class="ico" style="background:#ebf0ff;color:#4a6cf7">📖</div><div class="if"><div class="sn">学习模式</div><div class="sd">看词回想，点击揭晓</div></div><div class="ar">›</div></div>
+      <div class="mi" id="btn-quiz"><div class="ico" style="background:#fff3e0;color:#f90">✍️</div><div class="if"><div class="sn">测验模式</div><div class="sd">四选一，检验掌握</div></div><div class="ar">›</div></div>
+      <div class="mi" id="btn-rev"><div class="ico" style="background:#fce4ec;color:#ff6b6b">🔄</div><div class="if"><div class="sn">错题复习</div><div class="sd">重温不会的词</div></div><div class="ar">›</div></div>
+      <div class="mi" id="btn-stats"><div class="ico" style="background:#e8f5e9;color:#2ecc71">📊</div><div class="if"><div class="sn">学习进度</div><div class="sd">查看统计</div></div><div class="ar">›</div></div>
     </div>
-    <div class="ms" id="u1"></div>
+    <div class="ms" id="ms"></div>
   </div>
 </div>
-<div id="s3" class="screen">
-  <div class="header"><button class="back" onclick="b2()">‹</button><h1 id="t3">学习</h1><div class="ph"></div></div>
+<div id="pg3" class="page">
+  <div class="hd"><button class="bk" id="b3">‹</button><h2 id="t3">学习</h2><div class="ph"></div></div>
   <div class="ct">
-    <div class="sp"><div class="pb"><div class="fl" id="p1" style="width:0%"></div></div><div class="pt"><span id="p2">1/10</span><span id="p3">0%</span></div></div>
-    <div class="fc" id="fc1" onclick="rc()">
-      <button class="spk" id="sk1" onclick="event.stopPropagation();sp()">🔊</button>
-      <div class="wd" id="f1">word</div>
-      <div class="ph" id="f2">/wɜːd/</div>
-      <div class="mh" id="f3">👆 点击查看释义</div>
-      <div class="me" id="f4" style="display:none"></div>
-      <div class="ms" id="f5" style="display:none"></div>
+    <div class="sp"><div class="pb"><div class="fl" id="sbar" style="width:0%"></div></div><div class="pt"><span id="spos">1/10</span><span id="spct">0%</span></div></div>
+    <div class="fc" id="scard">
+      <div class="wd" id="sw">word</div>
+      <div class="hint" id="shint">👆 点击显示释义</div>
+      <div class="ans" id="sans" style="display:none"></div>
     </div>
-    <div class="sa" id="f6" style="display:none">
-      <button class="btn btn-outline" onclick="mk(0)" style="border-color:#ff6b6b;color:#ff6b6b">😅 还要练</button>
-      <button class="btn btn-primary" onclick="mk(1)">✅ 知道了</button>
+    <div class="sa" id="sbtns" style="display:none">
+      <button class="btn btn-outline" id="sno" style="flex:1;border-color:#ff6b6b;color:#ff6b6b">😅 还要练</button>
+      <button class="btn btn-primary" id="syes" style="flex:1">✅ 知道了</button>
     </div>
   </div>
 </div>
-<div id="s4" class="screen">
-  <div class="header"><button class="back" onclick="b3()">‹</button><h1 id="t4">测验</h1><div class="ph"></div></div>
+<div id="pg4" class="page">
+  <div class="hd"><button class="bk" id="b4">‹</button><h2 id="t4">测验</h2><div class="ph"></div></div>
   <div class="ct">
-    <div class="qi"><span id="q1">第 1 题</span><span id="q2">✓ 0 | ✗ 0</span></div>
-    <div class="qc"><div class="wd" id="q3">word</div><div class="ph" id="q4"></div></div>
-    <div class="qo" id="q5"></div>
+    <div class="qi"><span id="qpos">第 1 题</span><span id="qscore">✓ 0 | ✗ 0</span></div>
+    <div class="qc"><div class="wd" id="qw">word</div></div>
+    <div class="qo" id="qopts"></div>
   </div>
 </div>
-<div id="s5" class="screen">
-  <div class="header"><button class="back" onclick="b1()">‹</button><h1>错题复习</h1><div class="ph"></div></div>
-  <div class="ct" id="r1"></div>
+<div id="pg5" class="page">
+  <div class="hd"><button class="bk" id="b5">‹</button><h2>错题复习</h2><div class="ph"></div></div>
+  <div class="ct" id="rct"></div>
 </div>
-<div id="s6" class="screen">
-  <div class="header"><button class="back" onclick="b1()">‹</button><h1>学习进度</h1><div class="ph"></div></div>
-  <div class="ct" id="st1"></div>
+<div id="pg6" class="page">
+  <div class="hd"><button class="bk" id="b6">‹</button><h2>学习进度</h2><div class="ph"></div></div>
+  <div class="ct" id="sct"></div>
 </div>
 </div>
 <script>
-/* DATA */
-var D={en:{4:[
-["classroom","教室","/ˈklɑːsruːm/"],["window","窗户","/ˈwɪndəʊ/"],["door","门","/dɔː/"],["picture","图画","/ˈpɪktʃə/"],["board","写字板","/bɔːd/"],["light","灯","/laɪt/"],["fan","风扇","/fæn/"],["wall","墙","/wɔːl/"],["floor","地板","/flɔː/"],["computer","电脑","/kəmˈpjuːtə/"],["desk","书桌","/desk/"],["chair","椅子","/tʃeə/"],["schoolbag","书包","/ˈskuːlbæɡ/"],["teacher","老师","/ˈtiːtʃə/"],["student","学生","/ˈstjuːdnt/"],["family","家庭","/ˈfæməli/"],["parents","父母","/ˈpeərənts/"],["uncle","叔叔","/ˈʌŋkl/"],["aunt","阿姨","/ɑːnt/"],["brother","兄弟","/ˈbrʌðə/"],["sister","姐妹","/ˈsɪstə/"],["bedroom","卧室","/ˈbedruːm/"],["kitchen","厨房","/ˈkɪtʃɪn/"],["bathroom","浴室","/ˈbɑːθruːm/"],["bed","床","/bed/"],["table","桌子","/ˈteɪbl/"],["sofa","沙发","/ˈsəʊfə/"],["phone","电话","/fəʊn/"],["fridge","冰箱","/frɪdʒ/"],["chicken","鸡肉","/ˈtʃɪkɪn/"],["beef","牛肉","/biːf/"],["noodles","面条","/ˈnuːdlz/"],["soup","汤","/suːp/"],["rice","米饭","/raɪs/"],["fish","鱼","/fɪʃ/"],["bread","面包","/bred/"],["milk","牛奶","/mɪlk/"],["egg","鸡蛋","/eɡ/"],["cake","蛋糕","/keɪk/"],["candy","糖果","/ˈkændi/"],["water","水","/ˈwɔːtə/"],["juice","果汁","/dʒuːs/"],["tea","茶","/tiː/"],["read","读","/riːd/"],["write","写","/raɪt/"],["draw","画","/drɔː/"],["jump","跳","/dʒʌmp/"],["run","跑","/rʌn/"],["swim","游泳","/swɪm/"],["sing","唱歌","/sɪŋ/"],["dance","跳舞","/dɑːns/"],["fly","飞","/flaɪ/"],["sleep","睡觉","/sliːp/"],["eat","吃","/iːt/"],["drink","喝","/drɪŋk/"],["hat","帽子","/hæt/"],["coat","外套","/kəʊt/"],["shoes","鞋子","/ʃuːz/"],["dress","连衣裙","/dres/"],["shirt","衬衫","/ʃɜːt/"],["jacket","夹克","/ˈdʒækɪt/"],["sweater","毛衣","/ˈswetə/"],["shorts","短裤","/ʃɔːts/"],["skirt","裙子","/skɜːt/"],["pretty","漂亮的","/ˈprɪti/"],["cheap","便宜的","/tʃiːp/"],["nice","好的","/naɪs/"],["big","大的","/bɪɡ/"],["small","小的","/smɔːl/"],["long","长的","/lɒŋ/"],["short","矮的","/ʃɔːt/"],["tall","高的","/tɔːl/"],["thin","瘦的","/θɪn/"],["strong","强壮的","/strɒŋ/"],["cute","可爱的","/kjuːt/"],["friendly","友好的","/ˈfrendli/"],["music","音乐","/ˈmjuːzɪk/"],["science","科学","/ˈsaɪəns/"],["art","美术","/ɑːt/"],["breakfast","早餐","/ˈbrekfəst/"],["lunch","午餐","/lʌntʃ/"],["dinner","晚餐","/ˈdɪnə/"]
-],5:[
-["Monday","星期一","/ˈmʌndeɪ/"],["Tuesday","星期二","/ˈtjuːzdeɪ/"],["Wednesday","星期三","/ˈwenzdeɪ/"],["Thursday","星期四","/ˈθɜːzdeɪ/"],["Friday","星期五","/ˈfraɪdeɪ/"],["Saturday","星期六","/ˈsætədeɪ/"],["Sunday","星期日","/ˈsʌndeɪ/"],["spring","春天","/sprɪŋ/"],["summer","夏天","/ˈsʌmə/"],["autumn","秋天","/ˈɔːtəm/"],["winter","冬天","/ˈwɪntə/"],["weather","天气","/ˈweðə/"],["sunny","晴朗的","/ˈsʌni/"],["rainy","下雨的","/ˈreɪni/"],["cloudy","多云的","/ˈklaʊdi/"],["windy","有风的","/ˈwɪndi/"],["snowy","下雪的","/ˈsnəʊi/"],["warm","温暖的","/wɔːm/"],["hot","热的","/hɒt/"],["cool","凉爽的","/kuːl/"],["cold","冷的","/kəʊld/"],["forest","森林","/ˈfɒrɪst/"],["river","河流","/ˈrɪvə/"],["lake","湖","/leɪk/"],["mountain","山","/ˈmaʊntɪn/"],["hill","小山","/hɪl/"],["tree","树","/triː/"],["bridge","桥","/brɪdʒ/"],["house","房子","/haʊs/"],["garden","花园","/ˈɡɑːdn/"],["park","公园","/pɑːk/"],["library","图书馆","/ˈlaɪbrəri/"],["playground","操场","/ˈpleɪɡraʊnd/"],["English","英语","/ˈɪŋɡlɪʃ/"],["Chinese","语文","/ˌtʃaɪˈniːz/"],["maths","数学","/mæθs/"],["PE","体育","/ˌpiː ˈiː/"],["homework","作业","/ˈhəʊmwɜːk/"],["delicious","美味的","/dɪˈlɪʃəs/"],["fresh","新鲜的","/freʃ/"],["healthy","健康的","/ˈhelθi/"],["sweet","甜的","/swiːt/"],["favourite","最喜欢的","/ˈfeɪvərɪt/"]
-],6:[
-["subway","地铁","/ˈsʌbweɪ/"],["train","火车","/treɪn/"],["plane","飞机","/pleɪn/"],["bus","公交车","/bʌs/"],["bike","自行车","/baɪk/"],["taxi","出租车","/ˈtæksi/"],["walk","步行","/wɔːk/"],["museum","博物馆","/mjuˈziːəm/"],["post office","邮局","/pəʊst ˈɒfɪs/"],["bookstore","书店","/ˈbʊkstɔː/"],["cinema","电影院","/ˈsɪnəmə/"],["hospital","医院","/ˈhɒspɪtl/"],["restaurant","餐馆","/ˈrestrɒnt/"],["hobby","爱好","/ˈhɒbi/"],["doctor","医生","/ˈdɒktə/"],["nurse","护士","/nɜːs/"],["driver","司机","/ˈdraɪvə/"],["farmer","农民","/ˈfɑːmə/"],["pilot","飞行员","/ˈpaɪlət/"],["coach","教练","/kəʊtʃ/"],["scientist","科学家","/ˈsaɪəntɪst/"],["yesterday","昨天","/ˈjestədeɪ/"],["trip","旅行","/trɪp/"],["holiday","假日","/ˈhɒlədeɪ/"],["photo","照片","/ˈfəʊtəʊ/"],["gift","礼物","/ɡɪft/"]
-],7:[
-["parent","父亲/母亲","/ˈpeərənt/"],["grandfather","祖父","/ˈɡrænfɑːðə/"],["grandmother","祖母","/ˈɡrænmʌðə/"],["cousin","堂表","/ˈkʌzn/"],["friend","朋友","/frend/"],["teacher","老师","/ˈtiːtʃə/"],["classmate","同班同学","/ˈklɑːsmeɪt/"],["subject","科目","/ˈsʌbdʒɪkt/"],["history","历史","/ˈhɪstri/"],["geography","地理","/dʒiˈɒɡrəfi/"],["biology","生物","/baɪˈɒlədʒi/"],["physics","物理","/ˈfɪzɪks/"],["favourite","最喜欢的","/ˈfeɪvərɪt/"],["difficult","困难的","/ˈdɪfɪkəlt/"],["interesting","有趣的","/ˈɪntrəstɪŋ/"],["easy","容易的","/ˈiːzi/"],["hamburger","汉堡","/ˈhæmbɜːɡə/"],["sandwich","三明治","/ˈsænwɪtʃ/"],["salad","沙拉","/ˈsæləd/"],["strawberry","草莓","/ˈstrɔːbəri/"],["apple","苹果","/ˈæpl/"],["banana","香蕉","/bəˈnɑːnə/"],["orange","橙子","/ˈɒrɪndʒ/"],["tomato","西红柿","/təˈmɑːtəʊ/"],["potato","土豆","/pəˈteɪtəʊ/"],["carrot","胡萝卜","/ˈkærət/"],["basketball","篮球","/ˈbɑːskɪtbɔːl/"],["soccer","足球","/ˈsɒkə/"],["volleyball","排球","/ˈvɒlibɔːl/"],["tennis","网球","/ˈtenɪs/"],["January","一月","/ˈdʒænjuəri/"],["February","二月","/ˈfebruəri/"],["March","三月","/mɑːtʃ/"],["April","四月","/ˈeɪprəl/"],["dog","狗","/dɒɡ/"],["cat","猫","/kæt/"],["panda","熊猫","/ˈpændə/"],["tiger","老虎","/ˈtaɪɡə/"],["lion","狮子","/ˈlaɪən/"],["early","早的","/ˈɜːli/"],["late","晚的","/leɪt/"],["usually","通常","/ˈjuːʒuəli/"],["always","总是","/ˈɔːlweɪz/"],["rule","规则","/ruːl/"],["important","重要的","/ɪmˈpɔːtnt/"]
-]},zh:{4:[
-["潮","cháo 潮水","浪潮"],["涨","zhǎng 涨潮","上涨"],["隐","yǐn 隐藏","隐约"],["约","yuē 约定","大约"],["窄","zhǎi 狭窄","宽窄"],["罩","zhào 笼罩","口罩"],["昂","áng 昂首","昂贵"],["观","guān 观察","观看"],["横","héng 横线","横跨"],["惯","guàn 习惯","惯性"],["渡","dù 渡口","渡过"],["势","shì 姿势","形势"],["裂","liè 裂开","分裂"],["沃","wò 肥沃","沃土"],["津","jīn 津贴","津津有味"],["属","shǔ 属于","属性"],["悬","xuán 悬挂","悬浮"],["崖","yá 山崖","悬崖"],["燃","rán 燃烧","燃料"],["炼","liàn 锻炼","炼钢"],["磁","cí 磁铁","磁场"],["域","yù 区域","领域"],["途","tú 路途","前途"],["暴","bào 暴力","暴风雨"],["肃","sù 严肃","肃静"],["振","zhèn 振奋","振动"],["旷","kuàng 空旷","旷野"],["尝","cháng 尝试","品尝"],["赚","zhuàn 赚钱","赚取"],["购","gòu 购买","采购"],["售","shòu 销售","售票"],["馆","guǎn 图书馆","餐馆"],["厨","chú 厨房","厨师"]
-],5:[
-["窃","qiè 盗窃","偷窃"],["惧","jù 恐惧","惧怕"],["撑","chēng 支撑","撑伞"],["偿","cháng 偿还","补偿"],["愧","kuì 惭愧","愧疚"],["魂","hún 灵魂","魂魄"],["瘾","yǐn 上瘾","瘾头"],["籍","jí 书籍","籍贯"],["肺","fèi 肺腑","肺活量"],["坠","zhuì 坠落","下坠"],["谨","jǐn 谨慎","严谨"],["慎","shèn 慎重","谨慎"],["疾","jí 疾病","迅速"],["殿","diàn 宫殿","殿堂"],["廊","láng 走廊","长廊"],["博","bó 博士","博学"],["览","lǎn 游览","阅览"],["史","shǐ 历史","史册"],["诞","dàn 诞生","诞辰"],["颂","sòng 歌颂","颂扬"],["毅","yì 毅力","坚毅"],["铸","zhù 铸造","铸就"],["硕","shuò 硕大","硕士"],["协","xié 协作","协商"],["捐","juān 捐献","捐款"],["效","xiào 效果","效率"]
-],6:[
-["邀","yāo 邀请","邀约"],["俯","fǔ 俯视","俯身"],["瀑","pù 瀑布","飞瀑"],["峭","qiào 峭壁","陡峭"],["躯","qū 身躯","躯体"],["蕴","yùn 蕴含","蕴藏"],["谧","mì 静谧","安谧"],["巷","xiàng 小巷","巷子"],["俏","qiào 俏皮","俊俏"],["勤","qín 勤奋","勤劳"],["勉","miǎn 勉励","勉强"],["挚","zhì 真挚","诚挚"],["寝","qǐn 就寝","寝室"],["斑","bān 斑点","斑马"],["怨","yuàn 抱怨","怨恨"],["囊","náng 囊括","锦囊"],["承","chéng 承担","承认"],["肩","jiān 肩膀","肩负"],["樱","yīng 樱花","樱桃"]
-],7:[
-["絮","xù 柳絮","絮叨"],["倚","yǐ 倚靠","不偏不倚"],["瞒","mán 隐瞒","瞒骗"],["诀","jué 诀别","秘诀"],["惶","huáng 惶恐","惊慌"],["焦","jiāo 焦虑","焦急"],["慕","mù 羡慕","仰慕"],["撒","sā 撒手","撒网"],["蜷","quán 蜷缩","蜷曲"],["镶","xiāng 镶嵌","镶金"],["慨","kǎi 感慨","慨叹"],["吟","yín 吟诵","呻吟"],["墟","xū 废墟","墟里"],["狭","xiá 狭窄","狭隘"],["隘","ài 狭隘","关隘"],["瞬","shùn 瞬间","转瞬"],["凝","níng 凝视","凝固"],["眸","móu 眼眸","眸子"],["颓","tuí 颓废","颓唐"],["琐","suǒ 琐碎","繁琐"],["辜","gū 辜负","无辜"],["稚","zhì 稚嫩","幼稚"],["怯","qiè 胆怯","怯弱"],["鄙","bǐ 鄙视","鄙夷"]
-]}};
-var A=null,B=null,C=[],D0=[],E=!1,F={c:0,w:0,t:0,a:[],o:[],ai:-1,d:!1,i:0},G=[],H=0;
-function I(){return document.getElementById(arguments[0])}
-function J(b){A=b;I('t1').textContent=b==='en'?'选择年级 - 英语单词':'选择年级 - 语文生字';
-var g=I('g1');g.innerHTML='';
-[[4,'四年级'],[5,'五年级'],[6,'六年级'],[7,'初一年级']].forEach(function(a){var d=document.createElement('div');d.className='gb';d.innerHTML='<div class="gn">'+a[0]+'</div><div class="gl">'+a[1]+'</div>';d.onclick=function(){K(a[0])};g.appendChild(d)});
-L('s1')}
-function K(b){B=b;I('t2').textContent=(A==='en'?'英语':'语文')+' · '+{4:'四年级',5:'五年级',6:'六年级',7:'初一年级'}[b];L('s2');M()}
-function M(){var k=wS('k').size,t=Z(),wr=wS('w').size;I('u1').innerHTML=k||wr?'<div class="si"><div class="num">'+k+'</div><div class="lb">已掌握</div></div><div class="sd"></div><div class="si"><div class="num">'+t+'</div><div class="lb">总词数</div></div><div class="sd"></div><div class="si"><div class="num">'+wr+'</div><div class="lb">待复习</div></div>':'<div style="text-align:center;color:#95a5a6;font-size:14px;width:100%">开始学习吧 📖</div>'}
-function Z(){return D[A][B].length}
-function wS(k){try{return new Set(JSON.parse(localStorage.getItem('xcb_'+A+'_'+B+'_'+k)||'[]'))}catch(e){return new Set}}
-function sS(k,s){localStorage.setItem('xcb_'+A+'_'+B+'_'+k,JSON.stringify([...s]))}
-function aK(i){var s=wS('k');s.add(i);sS('k',s)}
-function aW(i){var s=wS('w');s.add(i);sS('w',s)}
-function rW(i){var s=wS('w');s.delete(i);sS('w',s)}
-function gW(){return[...wS('w')].sort(function(a,b){return a-b})}
+var WORDS = {en:{4:[["classroom","教室"],["window","窗户"],["door","门"],["book","书"],["pen","钢笔"],["teacher","老师"],["student","学生"],["family","家庭"],["bed","床"],["table","桌子"],["water","水"],["read","读"],["write","写"],["run","跑"],["jump","跳"],["sing","唱歌"],["dance","跳舞"],["swim","游泳"],["eat","吃"],["drink","喝"],["big","大的"],["small","小的"],["long","长的"],["tall","高的"],["short","矮的"],["beautiful","美丽的"],["cute","可爱的"],["music","音乐"],["science","科学"],["art","美术"],["breakfast","早餐"],["lunch","午餐"],["dinner","晚餐"]],5:[["Monday","星期一"],["Tuesday","星期二"],["Wednesday","星期三"],["Thursday","星期四"],["Friday","星期五"],["Saturday","星期六"],["Sunday","星期日"],["spring","春天"],["summer","夏天"],["autumn","秋天"],["winter","冬天"],["sunny","晴朗"],["rainy","下雨"],["cloudy","多云"],["windy","有风"],["warm","温暖"],["hot","热"],["cool","凉爽"],["cold","冷"],["forest","森林"],["river","河流"],["lake","湖"],["mountain","山"],["park","公园"],["library","图书馆"],["delicious","美味"],["fresh","新鲜"],["healthy","健康"],["sweet","甜"],["favourite","最喜欢"]],6:[["subway","地铁"],["train","火车"],["plane","飞机"],["bus","公交车"],["bike","自行车"],["taxi","出租车"],["walk","步行"],["museum","博物馆"],["bookstore","书店"],["cinema","电影院"],["hospital","医院"],["doctor","医生"],["nurse","护士"],["driver","司机"],["farmer","农民"],["singer","歌手"],["writer","作家"],["hobby","爱好"],["yesterday","昨天"],["trip","旅行"],["holiday","假日"],["photo","照片"],["gift","礼物"]],7:[["parent","父母"],["grandfather","祖父"],["grandmother","祖母"],["friend","朋友"],["teacher","老师"],["classmate","同学"],["subject","科目"],["history","历史"],["geography","地理"],["biology","生物"],["favourite","最喜欢"],["difficult","困难"],["interesting","有趣"],["easy","容易"],["hamburger","汉堡"],["sandwich","三明治"],["salad","沙拉"],["apple","苹果"],["banana","香蕉"],["tomato","西红柿"],["basketball","篮球"],["soccer","足球"],["dog","狗"],["cat","猫"],["panda","熊猫"],["tiger","老虎"],["early","早"],["late","晚"],["usually","通常"],["always","总是"],["rule","规则"]]},zh:{4:[["潮","潮水"],["涨","涨潮"],["隐","隐藏"],["约","约定"],["窄","狭窄"],["罩","笼罩"],["昂","昂首"],["观","观察"],["惯","习惯"],["渡","渡口"],["裂","裂开"],["沃","肥沃"],["属","属于"],["悬","悬挂"],["崖","山崖"],["燃","燃烧"],["炼","锻炼"],["域","领域"],["途","路途"],["肃","肃静"],["振","振奋"],["旷","空旷"],["尝","尝试"],["赚","赚钱"],["购","购买"],["售","销售"]],5:[["窃","偷窃"],["惧","恐惧"],["撑","支撑"],["偿","偿还"],["愧","惭愧"],["魂","灵魂"],["瘾","上瘾"],["籍","书籍"],["肺","肺腑"],["坠","坠落"],["谨","谨慎"],["慎","慎重"],["疾","疾病"],["殿","宫殿"],["廊","走廊"],["博","博士"],["览","游览"],["诞","诞生"],["颂","歌颂"],["毅","毅力"]],6:[["邀","邀请"],["俯","俯视"],["瀑","瀑布"],["峭","峭壁"],["躯","身躯"],["蕴","蕴含"],["谧","静谧"],["巷","小巷"],["勤","勤奋"],["勉","勉励"],["挚","真挚"],["寝","寝室"],["斑","斑点"],["怨","抱怨"],["承","承担"],["肩","肩膀"],["樱","樱花"]],7:[["絮","柳絮"],["倚","倚靠"],["瞒","隐瞒"],["诀","诀别"],["惶","惶恐"],["焦","焦虑"],["慕","羡慕"],["撒","撒网"],["蜷","蜷缩"],["慨","感慨"],["吟","吟诵"],["墟","废墟"],["狭","狭窄"],["隘","狭隘"],["瞬","瞬间"],["凝","凝视"],["颓","颓废"],["怯","胆怯"],["鄙","鄙视"]]}};
+
+var curSubj = null;
+var curGrade = null;
+var sOrder = [];
+var sIdx = 0;
+var cardRv = false;
+var qData = null;
+var rList = [];
+var rIdx = 0;
+var rRv = false;
+
+function $(id) { return document.getElementById(id); }
+function wds() { return WORDS[curSubj][curGrade]; }
+function tw() { return wds().length; }
+
+function skey(s) { return 'xcb_'+curSubj+'_'+curGrade+'_'+s; }
+function lset(k) { try{return new Set(JSON.parse(localStorage.getItem(skey(k))||'[]'))}catch(e){return new Set()} }
+function sset(k,s) { localStorage.setItem(skey(k),JSON.stringify([...s])); }
+function known() { return lset('k'); }
+function akn(i) { var s=known();s.add(i);sset('k',s); }
+function wrng() { return lset('w'); }
+function awr(i) { var s=wrng();s.add(i);sset('w',s); }
+function rwr(i) { var s=wrng();s.delete(i);sset('w',s); }
+function wlist() { return[...wrng()].sort(function(a,b){return a-b}); }
 function sf(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
-var sc=[];
-function L(id,an){if(an===void 0)an=true;var els=document.querySelectorAll('.screen');for(var i=0;i<els.length;i++){els[i].classList.remove('active')}var el=I(id);el.classList.add('active');if(!sc.length||sc[sc.length-1]!==id)sc.push(id)}
-function b0(){L('s0')}function b1(){L('s2')}function b2(){L('s2');M()}function b3(){L('s2');M()}
-function toast(m){var t=document.createElement('div');t.className='toast';t.textContent=m;document.body.appendChild(t);setTimeout(function(){t.remove()},2000)}
-function ms(){H=0;E=!1;I('t3').textContent=(A==='en'?'英语 ':'语文 ')+{4:'四年级',5:'五年级',6:'六年级',7:'初一年级'}[B]+' · 学习';D0=sf([...Array(Z()).keys()]);L('s3');ss()}
-function ss(){var w=D[A][B][D0[H]];E=!1;var c=I('fc1');c.classList.remove('rv');I('f1').textContent=w[0];I('f2').textContent=A==='en'?w[2]:w[1];I('f4').style.display='none';I('f5').style.display='none';I('f3').style.display='block';I('f4').textContent='';I('f5').textContent='';I('f6').style.display='none';I('sk1').style.display=A==='en'?'flex':'none';var p=((H+1)/D0.length*100).toFixed(0);I('p1').style.width=p+'%';I('p2').textContent=(H+1)+'/'+D0.length;I('p3').textContent=p+'%'}
-function rc(){if(E)return;E=true;var w=D[A][B][D0[H]];I('fc1').classList.add('rv');I('f3').style.display='none';I('f4').style.display='block';I('f4').textContent=A==='en'?w[1]:w[1].split(' ').slice(1).join(' ');if(A==='zh'){I('f5').style.display='block';I('f5').textContent=w[2]}I('f6').style.display='flex'}
-function mk(k){var i=D0[H];if(k){aK(i);rW(i)}else aW(i);H++;if(H>=D0.length){toast('🎉 本轮完成！');L('s2');M();return}ss()}
-function mq(){I('t4').textContent=(A==='en'?'英语 ':'语文 ')+{4:'四年级',5:'五年级',6:'六年级',7:'初一年级'}[B]+' · 测验';F={c:0,w:0,t:0,a:[],o:[],ai:-1,d:!1,i:0};C=sf([...Array(Z()).keys()]);F.t=Math.min(C.length,20);F.a=C.slice(0,F.t);L('s4');sq()}
-function sq(){if(F.i>=F.t){sR();return}F.d=false;var wi=F.a[F.i],w=D[A][B][wi],al=D[A][B];I('q3').textContent=w[0];I('q4').textContent=A==='en'?w[2]:'';I('q1').textContent='第 '+(F.i+1)+' 题 / 共 '+F.t+' 题';I('q2').textContent='✓ '+F.c+' | ✗ '+F.w;var op=[wi],pl=[];for(var i=0;i<al.length;i++){if(i!==wi)pl.push(i)}sf(pl);for(var i=0;i<3&&i<pl.length;i++)op.push(pl[i]);sf(op);F.o=op;F.ai=op.indexOf(wi);var h='';for(var i=0;i<op.length;i++){var oi=op[i],l=A==='en'?al[oi][1]:(al[oi][1].split(' ')[0]+' '+al[oi][2]);h+='<div class="qoi" onclick="aQ('+i+')">'+l+'</div>'}I('q5').innerHTML=h}
-function aQ(oi){if(F.d)return;F.d=true;var c=F.ai===oi;if(c)F.c++;else F.w++;var op=I('q5').querySelectorAll('.qoi');for(var i=0;i<op.length;i++){var el=op[i];el.classList.add('di');if(i===F.ai)el.classList.add('cr');else if(i===oi&&!c)el.classList.add('wr')}if(!c)aW(F.a[F.i]);I('q2').textContent='✓ '+F.c+' | ✗ '+F.w;setTimeout(function(){F.i++;sq()},800)}
-function sR(){var p=F.t?Math.round(F.c/F.t*100):0,e=p>=90?'🏆':p>=70?'🌟':p>=50?'👍':'💪';I('q5').innerHTML='<div class="qr"><div class="em">'+e+'</div><div class="sc">'+F.c+'/'+F.t+'</div><div class="lb">正确率 '+p+'%</div><div style="margin-top:20px"><button class="btn btn-primary btn-block" onclick="L(\'s2\');M();">返回</button></div></div>'}
-function mr(){var wl=gW();if(!wl.length){I('r1').innerHTML='<div class="re"><div class="ico">🎉</div><div>没有需要复习的词</div></div>';L('s5');return}G=wl;H=0;E=false;sRw();L('s5')}
-function sRw(){if(H>=G.length){I('r1').innerHTML='<div class="re"><div class="ico">🎉</div><div>全部复习完毕！</div><div style="margin-top:16px"><button class="btn btn-primary" onclick="L(\'s2\');M();">返回</button></div></div>';return}var wi=G[H],w=D[A][B][wi];E=false;I('r1').innerHTML='<div class="sp"><div class="pb"><div class="fl" style="width:'+((H+1)/G.length*100).toFixed(0)+'%"></div></div><div class="pt"><span>'+(H+1)+'/'+G.length+'</span><span>错题复习</span></div></div><div class="fc" onclick="rR()"><div class="wd">'+w[0]+'</div><div class="ph">'+(A==='en'?w[2]:w[1])+'</div><div class="mh" id="rh">👆 点击查看释义</div><div class="me" id="rm" style="display:none">'+(A==='en'?w[1]:w[1].split(' ').slice(1).join(' '))+'</div><div class="ms" id="rms" style="display:none">'+(A==='zh'?w[2]:'')+'</div></div><div class="sa" id="ra" style="display:none"><button class="btn btn-outline" onclick="nR(0)" style="border-color:#ff6b6b;color:#ff6b6b">😅 还要练</button><button class="btn btn-primary" onclick="nR(1)">✅ 记住了</button></div>'}
-function rR(){if(E)return;E=true;I('rh').style.display='none';I('rm').style.display='block';I('rms').style.display=A==='zh'?'block':'none';I('ra').style.display='flex'}
-function nR(k){var wi=G[H];if(k){rW(wi);aK(wi)}else aW(wi);H++;sRw()}
-function mst(){var tw=Z(),kn=wS('k').size,wr=wS('w').size,kp=tw?Math.round(kn/tw*100):0,sn=A==='en'?'英语':'语文',gn={4:'四年级',5:'五年级',6:'六年级',7:'初一年级'}[B];I('st1').innerHTML='<div class="sh"><div class="bn">'+kp+'%</div><div class="sb">'+sn+' · '+gn+' 掌握率</div></div><div class="sg"><div class="scd"><div class="num" style="color:#4a6cf7">'+kn+'</div><div class="lb">已掌握</div></div><div class="scd"><div class="num">'+tw+'</div><div class="lb">总词数</div></div><div class="scd"><div class="num" style="color:#ff6b6b">'+wr+'</div><div class="lb">待复习</div></div><div class="scd"><div class="num" style="color:#2ecc71">'+(tw-kn)+'</div><div class="lb">待学习</div></div></div><div style="margin-top:8px"><div class="pb" style="height:10px;border-radius:5px"><div class="fl" style="width:'+kp+'%;border-radius:5px"></div></div></div><div style="margin-top:16px;text-align:center"><button class="btn btn-outline btn-sm" onclick="if(confirm('确定重置本年级进度吗？')){localStorage.removeItem('xcb_'+A+'_'+B+'_k');localStorage.removeItem('xcb_'+A+'_'+B+'_w');toast('已重置');mst()}">🔄 重置进度</button></div>';L('s6')}
-function sp(){var w=D[A][B][D0[H]];if(!w||!window.speechSynthesis)return;var u=new SpeechSynthesisUtterance(w[0]);u.lang=A==='en'?'en-US':'zh-CN';u.rate=0.9;speechSynthesis.cancel();speechSynthesis.speak(u)}
+
+function showPage(id) {
+  var els = document.querySelectorAll('.page');
+  for(var i=0;i<els.length;i++) els[i].classList.remove('active');
+  $(id).classList.add('active');
+}
+
+function goHome() { showPage('pg0'); }
+function goMenu() { showPage('pg2'); uStats(); }
+
+function selSubj(s) {
+  curSubj = s;
+  $('t1').textContent = s==='en'?'选择年级 - 英语':'选择年级 - 语文';
+  var g = $('g1'); g.innerHTML = '';
+  [[4,'四年级'],[5,'五年级'],[6,'六年级'],[7,'初一年级']].forEach(function(a){
+    var d = document.createElement('div'); d.className = 'gb';
+    d.innerHTML = '<div class="gn">'+a[0]+'</div><div class="gl">'+a[1]+'</div>';
+    d.addEventListener('click', function(){ selGrade(a[0]); });
+    g.appendChild(d);
+  });
+  showPage('pg1');
+}
+
+function selGrade(g) {
+  curGrade = g;
+  var nm = {4:'四年级',5:'五年级',6:'六年级',7:'初一年级'};
+  $('t2').textContent = (curSubj==='en'?'英语':'语文')+' · '+nm[g];
+  showPage('pg2');
+  uStats();
+}
+
+function uStats() {
+  var kn = known().size, t = tw(), wr = wrng().size;
+  $('ms').innerHTML = kn||wr
+    ? '<div class="msi"><div class="mn">'+kn+'</div><div class="ml">已掌握</div></div><div class="msd"></div><div class="msi"><div class="mn">'+t+'</div><div class="ml">总词数</div></div><div class="msd"></div><div class="msi"><div class="mn">'+wr+'</div><div class="ml">待复习</div></div>'
+    : '<div style="text-align:center;color:#999;font-size:14px;width:100%">开始学习吧 📖</div>';
+}
+
+function startStudy() {
+  var nm = {4:'四年级',5:'五年级',6:'六年级',7:'初一年级'};
+  $('t3').textContent = (curSubj==='en'?'英语 ':'语文 ')+nm[curGrade]+' · 学习';
+  sOrder = sf([...Array(tw()).keys()]);
+  sIdx = 0; cardRv = false;
+  showPage('pg3');
+  showCard();
+}
+
+function showCard() {
+  var w = wds()[sOrder[sIdx]]; cardRv = false;
+  $('scard').classList.remove('rv');
+  $('sw').textContent = w[0];
+  $('shint').textContent = '👆 点击显示释义';
+  $('shint').style.display = 'block';
+  $('sans').style.display = 'none'; $('sans').textContent = '';
+  $('sbtns').style.display = 'none';
+  var p = ((sIdx+1)/sOrder.length*100).toFixed(0);
+  $('sbar').style.width = p+'%';
+  $('spos').textContent = (sIdx+1)+'/'+sOrder.length;
+  $('spct').textContent = p+'%';
+}
+
+function rvCard() {
+  if (cardRv) return; cardRv = true;
+  var w = wds()[sOrder[sIdx]];
+  $('scard').classList.add('rv');
+  $('shint').style.display = 'none';
+  $('sans').textContent = w[1];
+  $('sans').style.display = 'block';
+  $('sbtns').style.display = 'flex';
+}
+
+function mk(k) {
+  var i = sOrder[sIdx];
+  if (k) { akn(i); rwr(i); } else awr(i);
+  sIdx++;
+  if (sIdx >= sOrder.length) { goMenu(); return; }
+  showCard();
+}
+
+function startQuiz() {
+  var nm = {4:'四年级',5:'五年级',6:'六年级',7:'初一年级'};
+  $('t4').textContent = (curSubj==='en'?'英语 ':'语文 ')+nm[curGrade]+' · 测验';
+  var ord = sf([...Array(tw()).keys()]);
+  var t = Math.min(ord.length,20);
+  qData = {c:0,w:0,t:t,a:ord.slice(0,t),i:0,d:false};
+  showPage('pg4');
+  showQ();
+}
+
+function showQ() {
+  if (qData.i >= qData.t) { showQR(); return; }
+  qData.d = false;
+  var idx = qData.a[qData.i], w = wds()[idx], al = wds();
+  $('qw').textContent = w[0];
+  $('qpos').textContent = '第 '+(qData.i+1)+' 题 / 共 '+qData.t+' 题';
+  $('qscore').textContent = '✓ '+qData.c+' | ✗ '+qData.w;
+  var op = [idx], pl = [];
+  for(var i=0;i<al.length;i++){if(i!==idx)pl.push(i)}
+  sf(pl);
+  for(var i=0;i<3&&i<pl.length;i++)op.push(pl[i]);
+  sf(op);
+  var ci = op.indexOf(idx);
+  var h = '';
+  for(var i=0;i<op.length;i++) {
+    h += '<div class="qoi" data-ci="'+ci+'" data-chosen="'+i+'">'+al[op[i]][1]+'</div>';
+  }
+  $('qopts').innerHTML = h;
+  // Bind click events
+  var opts = $('qopts').querySelectorAll('.qoi');
+  for(var i=0;i<opts.length;i++) {
+    opts[i].addEventListener('click', function(){
+      if (qData.d) return;
+      var ci = parseInt(this.getAttribute('data-ci'));
+      var chosen = parseInt(this.getAttribute('data-chosen'));
+      ansQ(chosen, ci);
+    });
+  }
+}
+
+function ansQ(chosen, correct) {
+  qData.d = true;
+  var isCorrect = (chosen === correct);
+  if (isCorrect) qData.c++; else qData.w++;
+  var opts = $('qopts').querySelectorAll('.qoi');
+  for(var i=0;i<opts.length;i++) {
+    opts[i].classList.add('di');
+    var ci = parseInt(opts[i].getAttribute('data-ci'));
+    var ch = parseInt(opts[i].getAttribute('data-chosen'));
+    if (ch === correct) opts[i].classList.add('cr');
+    else if (ch === chosen && !isCorrect) opts[i].classList.add('wr');
+  }
+  if (!isCorrect) awr(qData.a[qData.i]);
+  $('qscore').textContent = '✓ '+qData.c+' | ✗ '+qData.w;
+  setTimeout(function(){ qData.i++; showQ(); }, 800);
+}
+
+function showQR() {
+  var p = qData.t?Math.round(qData.c/qData.t*100):0, e=p>=90?'🏆':p>=70?'🌟':p>=50?'👍':'💪';
+  $('qopts').innerHTML = '<div style="text-align:center;padding:30px 20px"><div style="font-size:56px;margin-bottom:12px">'+e+'</div><div style="font-size:40px;font-weight:800;color:#4a6cf7">'+qData.c+'/'+qData.t+'</div><div style="font-size:15px;color:#999;margin:6px 0">正确率 '+p+'%</div><div style="margin-top:20px"><button class="btn btn-primary" onclick="goMenu()">返回</button></div></div>';
+}
+
+function openReview() {
+  var l = wlist();
+  if (!l.length) {
+    $('rct').innerHTML = '<div class="re"><div class="ico">🎉</div><div>没有要复习的词</div></div>';
+    showPage('pg5'); return;
+  }
+  rList = l; rIdx = 0; rRv = false;
+  showRCard();
+  showPage('pg5');
+}
+
+function showRCard() {
+  if (rIdx >= rList.length) {
+    $('rct').innerHTML = '<div class="re"><div class="ico">🎉</div><div>全部复习完毕</div><div style="margin-top:16px"><button class="btn btn-primary" onclick="goMenu()">返回</button></div></div>';
+    return;
+  }
+  var w = wds()[rList[rIdx]]; rRv = false;
+  $('rct').innerHTML = '<div class="sp"><div class="pb"><div class="fl" style="width:'+((rIdx+1)/rList.length*100).toFixed(0)+'%"></div></div><div class="pt"><span>'+(rIdx+1)+'/'+rList.length+'</span><span>错题复习</span></div></div>'
+    + '<div class="fc" id="rcard"><div class="wd" id="rw">'+w[0]+'</div><div class="hint" id="rhint">👆 点击显示释义</div><div class="ans" id="rans" style="display:none">'+w[1]+'</div></div>'
+    + '<div class="sa" id="rbtns" style="display:none"><button class="btn btn-outline" id="rno" style="flex:1;border-color:#ff6b6b;color:#ff6b6b">😅 还要练</button><button class="btn btn-primary" id="ryes" style="flex:1">✅ 记住了</button></div>';
+  $('rcard').addEventListener('click', rvR);
+  $('rno').addEventListener('click', function(){ nextR(false); });
+  $('ryes').addEventListener('click', function(){ nextR(true); });
+}
+
+function rvR() {
+  if (rRv) return; rRv = true;
+  $('rhint').style.display = 'none';
+  $('rans').style.display = 'block';
+  $('rbtns').style.display = 'flex';
+}
+
+function nextR(k) {
+  var i = rList[rIdx];
+  if (k) { rwr(i); akn(i); } else awr(i);
+  rIdx++;
+  showRCard();
+}
+
+function showStats() {
+  var t = tw(), kn = known().size, wr = wrng().size, p = t?Math.round(kn/t*100):0;
+  var sn = curSubj==='en'?'英语':'语文', gn = {4:'四年级',5:'五年级',6:'六年级',7:'初一年级'}[curGrade];
+  $('sct').innerHTML = '<div class="sh"><div class="bn">'+p+'%</div><div class="sb">'+sn+' · '+gn+' 掌握率</div></div>'
+    + '<div class="sg"><div class="scd"><div class="sn" style="color:#4a6cf7">'+kn+'</div><div class="sl">已掌握</div></div>'
+    + '<div class="scd"><div class="sn">'+t+'</div><div class="sl">总词数</div></div>'
+    + '<div class="scd"><div class="sn" style="color:#ff6b6b">'+wr+'</div><div class="sl">待复习</div></div>'
+    + '<div class="scd"><div class="sn" style="color:#2ecc71">'+(t-kn)+'</div><div class="sl">待学习</div></div></div>'
+    + '<div style="margin-top:12px"><div class="pb" style="height:10px;border-radius:5px"><div class="fl" style="width:'+p+'%;border-radius:5px"></div></div></div>'
+    + '<div style="margin-top:16px;text-align:center"><button class="btn btn-outline btn-sm" onclick="rst()">🔄 重置进度</button></div>';
+  showPage('pg6');
+}
+
+function rst() {
+  if (!confirm('确定重置本年级进度吗？')) return;
+  localStorage.removeItem(skey('k')); localStorage.removeItem(skey('w'));
+  showStats(); uStats();
+}
+
+function init() {
+  $('btn-en').addEventListener('click', function(){ selSubj('en'); });
+  $('btn-zh').addEventListener('click', function(){ selSubj('zh'); });
+  $('b1').addEventListener('click', goHome);
+  $('b2').addEventListener('click', function(){ showPage('pg1'); });
+  $('b3').addEventListener('click', function(){ goMenu(); });
+  $('b4').addEventListener('click', function(){ goMenu(); });
+  $('b5').addEventListener('click', goMenu);
+  $('b6').addEventListener('click', goMenu);
+  $('btn-stu').addEventListener('click', startStudy);
+  $('btn-quiz').addEventListener('click', startQuiz);
+  $('btn-rev').addEventListener('click', openReview);
+  $('btn-stats').addEventListener('click', showStats);
+  $('scard').addEventListener('click', rvCard);
+  $('sno').addEventListener('click', function(){ mk(false); });
+  $('syes').addEventListener('click', function(){ mk(true); });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
 </script>
 </body>
 </html>
